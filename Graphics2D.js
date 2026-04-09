@@ -8,3 +8,6 @@ function Graphics2D(element) {
   GraphicsBase.call(this, element);
   this.ctx = this.getContext("2d");
 }
+
+Graphics2D.prototype = Object.create(GraphicsBase.prototype);
+Graphics2D.prototype.constructor = GraphicsBase;
