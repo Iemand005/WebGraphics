@@ -9,29 +9,38 @@ function GraphicsBase(element) {
 
   if (element instanceof HTMLCanvasElement)
     this.canvas = element;
-  else
-    var element = typeof element === "string" ? document.getElementById(element) : document.createElement("canvas");
-  // this.canvas = (
-  //   element instanceof HTMLCanvasElement
-  //   ? element
-  //   : (
-  //     typeof element == "string"
-  //     ? document.getElementById(element)
-  //     : document.createElement("canvas")
-  //   ));
+  else if (typeof element === "string") {
+    var canvas = document.getElementById(element);
+    if (canvas instanceof HTMLCanvasElement) this.canvas = canvas;
+  } else this.canvas = document.createElement("canvas")
   
+  if (!this.canvas) return;
+
+  var self = this;
+
   this.canvas.onresize = function () {
-    var bounds = canvas.getBoundingClientRect();
-    graphics.resize(bounds.width, bounds.height);
+    if (!self.canvas) return;
+    var bounds = self.canvas.getBoundingClientRect();
+    self.resize(bounds.width, bounds.height);
   }
 }
 
+/**
+ * @param {number} width
+ * @param {number} height
+ */
 GraphicsBase.prototype.resize = function (width, height) {
+  if (!this.canvas) return;
   this.canvas.width = width;
   this.canvas.height = height;
 }
 
+/**
+ * @deprecated
+ * @param {string} type
+ */
 GraphicsBase.prototype.getContext = function (type) {
+  if (!this.canvas) return;
   return this.canvas.getContext(type);
 }
 
