@@ -5,14 +5,20 @@
  */
 function GraphicsBase(element) {
   /** @type {HTMLCanvasElement?} */
-  this.canvas = (
-    element instanceof HTMLCanvasElement
-    ? element
-    : (
-      typeof element == "string"
-      ? document.getElementById(element)
-      : document.createElement("canvas")
-    ));
+  this.canvas = null;
+
+  if (element instanceof HTMLCanvasElement)
+    this.canvas = element;
+  else
+    var element = typeof element === "string" ? document.getElementById(element) : document.createElement("canvas");
+  // this.canvas = (
+  //   element instanceof HTMLCanvasElement
+  //   ? element
+  //   : (
+  //     typeof element == "string"
+  //     ? document.getElementById(element)
+  //     : document.createElement("canvas")
+  //   ));
   
   this.canvas.onresize = function () {
     var bounds = canvas.getBoundingClientRect();
