@@ -1,7 +1,7 @@
 
 /**
  * @constructor
- * @param {HTMLCanvasElement | string | null} element 
+ * @param {HTMLCanvasElement | string} [element]
  */
 function GraphicsBase(element) {
   /** @type {HTMLCanvasElement?} */

@@ -6,7 +6,7 @@
  */
 function Graphics2D(element) {
   GraphicsBase.call(this, element);
-  this.ctx = this.getContext("2d");
+  this.ctx = this.canvas.getContext("2d");
 }
 
 Graphics2D.prototype = Object.create(GraphicsBase.prototype);
