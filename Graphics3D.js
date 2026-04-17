@@ -25,7 +25,6 @@ function Graphics3D(canvas) {
   this.blitAttribLocation = -1;
   this.blitTextureLocation = null;
 
-
   this.onrender = function () {};
 }
 
@@ -34,7 +33,7 @@ Graphics3D.prototype.clear = function () {
 };
 
 Graphics3D.prototype.setClearColor = function (r, g, b, a) {
-    this.gl.clearColor(r, g, b, a);
+  this.gl.clearColor(r, g, b, a);
 };
 
 Graphics3D.prototype.setRenderTarget = function (renderTarget) {
@@ -158,27 +157,26 @@ Graphics3D.prototype.loadShaders = function (vsSource, fsSource) {
 
   gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
 
-  
   this.programInfo = {
-  program: this.shaderProgram,
-  attribLocations: {
-    vertexPosition: this.gl.getAttribLocation(
-      this.shaderProgram,
-      "aVertexPosition"
-    ),
-    vertexColor: this.gl.getAttribLocation(this.shaderProgram, "aVertexColor")
-  },
-  uniformLocations: {
-    projectionMatrix: this.gl.getUniformLocation(
-      this.shaderProgram,
-      "uProjectionMatrix"
-    ),
-    modelViewMatrix: this.gl.getUniformLocation(
-      this.shaderProgram,
-      "uModelViewMatrix"
-    )
-  }
-};
+    program: this.shaderProgram,
+    attribLocations: {
+      vertexPosition: this.gl.getAttribLocation(
+        this.shaderProgram,
+        "aVertexPosition"
+      ),
+      vertexColor: this.gl.getAttribLocation(this.shaderProgram, "aVertexColor")
+    },
+    uniformLocations: {
+      projectionMatrix: this.gl.getUniformLocation(
+        this.shaderProgram,
+        "uProjectionMatrix"
+      ),
+      modelViewMatrix: this.gl.getUniformLocation(
+        this.shaderProgram,
+        "uModelViewMatrix"
+      )
+    }
+  };
 };
 
 let squareRotation = 0.0;
@@ -322,7 +320,9 @@ Graphics3D.prototype.drawScene = function (programInfo, deltaTime) {
     typeof stereogramState !== "undefined" &&
     stereogramState.depthSource === "generated"
   ) {
-    const pixels = new Uint8Array(this.renderTarget.width * this.renderTarget.height * 4);
+    const pixels = new Uint8Array(
+      this.renderTarget.width * this.renderTarget.height * 4
+    );
     gl.readPixels(
       0,
       0,
@@ -366,6 +366,7 @@ Graphics3D.prototype.resize = function (width, height) {
   const dpr = window.devicePixelRatio || 1;
   this.canvas.width = width * dpr;
   this.canvas.height = height * dpr;
+  // TODO: call graphicsbase resize
   this.gl.viewport(0, 0, this.canvas.width, this.canvas.height);
   // ctx.scale(dpr, dpr);
   if (this.gl.scale) this.gl.scale(dpr, dpr);
