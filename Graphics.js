@@ -31,6 +31,10 @@ GraphicsBase.prototype.resize = function (width, height) {
   if (!this.canvas) return;
   this.canvas.width = width;
   this.canvas.height = height;
+
+  const dpr = window.devicePixelRatio || 1;
+  this.canvas.width = width * dpr;
+  this.canvas.height = height * dpr;
 };
 
 /**
