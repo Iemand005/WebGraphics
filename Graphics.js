@@ -33,12 +33,9 @@ GraphicsBase.prototype.resize = function (width, height) {
   if (!width) width = this.canvas.clientWidth;
   if (!height) height = this.canvas.clientHeight;
 
-  this.canvas.width = width;
-  this.canvas.height = height;
-
   const dpr = window.devicePixelRatio || 1;
-  this.canvas.width = width * dpr;
-  this.canvas.height = height * dpr;
+  this.width = width * dpr;
+  this.height = height * dpr;
 };
 
 /**
@@ -51,17 +48,17 @@ GraphicsBase.prototype.getContext = function (type) {
 };
 
 Object.defineProperty(Dialog.prototype, "width", {
-    get: function() { return this.canvas.width; },
-    set: function(width) {
-      if (typeof width === "number")
-        this.canvas.width = width;
-    }
+  get: function() { return this.canvas.width; },
+  set: function(width) {
+    if (typeof width === "number")
+      this.canvas.width = width;
+  }
 });
 
 Object.defineProperty(Dialog.prototype, "height", {
-    get: function() { return this.canvas.height; },
-    set: function(height) {
-      if (typeof height === "number")
-        this.canvas.height = height;
-    }
+  get: function() { return this.canvas.height; },
+  set: function(height) {
+    if (typeof height === "number")
+      this.canvas.height = height;
+  }
 });
