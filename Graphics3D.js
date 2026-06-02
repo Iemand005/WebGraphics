@@ -392,7 +392,6 @@ Graphics3D.prototype.loadShaders = function (vsSource, fsSource) {
 };
 
 let deltaTime = 0;
-// let now = 0;
 let then = 0;
 
 function Camera() {
@@ -564,20 +563,17 @@ Graphics3D.prototype.drawScene = function (programInfo, deltaTime, camera) {
 
 // };
 
-Graphics3D.prototype.render = function (now) {
+Graphics3D.prototype.render = function(now) {
   now *= 0.001; // convert to seconds
   deltaTime = now - then;
   then = now;
 
-  // console.log(this);
-  // console.log(deltaTime);
   this.drawScene(this.programInfo, deltaTime);
-  // squareRotation += deltaTime;
 
   requestAnimationFrame(Graphics3D.prototype.render.bind(this));
 };
 
-Graphics3D.prototype.startRendering = function () {
+Graphics3D.prototype.startRendering = function() {
   requestAnimationFrame(Graphics3D.prototype.render.bind(this));
 };
 
@@ -591,5 +587,3 @@ Graphics3D.prototype.resize = function (width, height) {
   // ctx.scale(dpr, dpr);
   if (this.gl.scale) this.gl.scale(dpr, dpr);
 };
-
-// export { drawScene };
