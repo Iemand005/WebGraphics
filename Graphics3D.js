@@ -184,7 +184,8 @@ let deltaTime = 0;
 let then = 0;
 
 function Camera() {
-  this.rotation
+  /** @type {Vector3D} */
+  this.rotation = new Vector3D();
 }
 
 Graphics3D.prototype.drawScene = function (programInfo, deltaTime) {
