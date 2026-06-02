@@ -23,6 +23,22 @@ function GraphicsBase(element) {
   };
 }
 
+Object.defineProperty(GraphicsBase.prototype, "width", {
+  get: function() { return this.canvas ? this.canvas.width : 0; },
+  set: function(width) {
+    if (typeof width === "number" && this.canvas)
+      this.canvas.width = width;
+  }
+});
+
+Object.defineProperty(GraphicsBase.prototype, "height", {
+  get: function() { return this.canvas ? this.canvas.height : 0; },
+  set: function(height) {
+    if (typeof height === "number" && this.canvas)
+      this.canvas.height = height;
+  }
+});
+
 /**
  * @param {number} width
  * @param {number} height
@@ -46,19 +62,3 @@ GraphicsBase.prototype.getContext = function (type) {
   if (!this.canvas) return;
   return this.canvas.getContext(type);
 };
-
-Object.defineProperty(Dialog.prototype, "width", {
-  get: function() { return this.canvas.width; },
-  set: function(width) {
-    if (typeof width === "number")
-      this.canvas.width = width;
-  }
-});
-
-Object.defineProperty(Dialog.prototype, "height", {
-  get: function() { return this.canvas.height; },
-  set: function(height) {
-    if (typeof height === "number")
-      this.canvas.height = height;
-  }
-});
