@@ -179,10 +179,13 @@ Graphics3D.prototype.loadShaders = function (vsSource, fsSource) {
   };
 };
 
-let squareRotation = 0.0;
 let deltaTime = 0;
 // let now = 0;
 let then = 0;
+
+function Camera() {
+  this.rotation
+}
 
 Graphics3D.prototype.drawScene = function (programInfo, deltaTime) {
   const gl = this.gl;
