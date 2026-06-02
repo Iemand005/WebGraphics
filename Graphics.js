@@ -29,6 +29,10 @@ function GraphicsBase(element) {
  */
 GraphicsBase.prototype.resize = function (width, height) {
   if (!this.canvas) return;
+
+  if (!width) width = this.canvas.clientWidth;
+  if (!height) height = this.canvas.clientHeight;
+
   this.canvas.width = width;
   this.canvas.height = height;
 
