@@ -400,7 +400,14 @@ function Camera() {
   this.rotation = new Vector3D();
 }
 
-Graphics3D.prototype.drawScene = function (programInfo, deltaTime) {
+/**
+ * 
+ * @param {*} programInfo 
+ * @param {number} deltaTime 
+ * @param {Camera} camera 
+ * @returns 
+ */
+Graphics3D.prototype.drawScene = function (programInfo, deltaTime, camera) {
   const gl = this.gl;
   if (!gl) return;
 
@@ -436,9 +443,6 @@ Graphics3D.prototype.drawScene = function (programInfo, deltaTime) {
   // the center of the scene.
   const modelViewMatrix = mat4.create();
 
-  if (!cubeRotationPaused) {
-    squareRotation += deltaTime;
-  }
   mat4.translate(
     modelViewMatrix, // destination matrix
     modelViewMatrix, // matrix to translate
@@ -448,19 +452,19 @@ Graphics3D.prototype.drawScene = function (programInfo, deltaTime) {
   mat4.rotate(
     modelViewMatrix, // destination matrix
     modelViewMatrix, // matrix to rotate
-    squareRotation, // amount to rotate in radians
+    camera.rotation.z, // amount to rotate in radians
     [0, 0, 1]
   ); // axis to rotate around (Z)
   mat4.rotate(
     modelViewMatrix, // destination matrix
     modelViewMatrix, // matrix to rotate
-    squareRotation * 0.7, // amount to rotate in radians
+    camera.rotation.y, // amount to rotate in radians
     [0, 1, 0]
   ); // axis to rotate around (Y)
   mat4.rotate(
     modelViewMatrix, // destination matrix
     modelViewMatrix, // matrix to rotate
-    squareRotation * 0.3, // amount to rotate in radians
+    camera.rotation.x, // amount to rotate in radians
     [1, 0, 0]
   ); // axis to rotate around (X)
 
