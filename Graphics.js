@@ -49,3 +49,19 @@ GraphicsBase.prototype.getContext = function (type) {
   if (!this.canvas) return;
   return this.canvas.getContext(type);
 };
+
+Object.defineProperty(Dialog.prototype, "width", {
+    get: function() { return this.canvas.width; },
+    set: function(width) {
+      if (typeof width === "number")
+        this.canvas.width = width;
+    }
+});
+
+Object.defineProperty(Dialog.prototype, "height", {
+    get: function() { return this.canvas.height; },
+    set: function(height) {
+      if (typeof height === "number")
+        this.canvas.height = height;
+    }
+});
