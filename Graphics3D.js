@@ -210,6 +210,36 @@ var mat4 = {
   }
 };
 
+/**
+ * 
+ * @param {number | {x:number,y:number,z:number}} x 
+ * @param {number} y 
+ * @param {number} z 
+ */
+function Vector3D(x, y, z) {
+    this.x = 0;
+    this.y = 0;
+    this.z = 0;
+    if (typeof x === "number") {
+        this.x = x;
+        if (y == null && z == null) 
+            this.y = x, this.z = x;
+        else this.y = y, this.z = z;
+    } else if (typeof x === "object" && x.x && x.y && x.z) {
+        this.x = x.x, this.y = x.y, this.z = x.z;
+    }
+}
+
+/** @param {number} amount */
+Vector3D.prototype.div = function (amount) {
+    this.x /= amount, this.y /= amount, this.z /= amount;
+    return this;
+}
+
+Vector3D.prototype.normalize = function () {
+    return this.div(this.x + this.y + this.z);
+}
+
 Graphics3D.prototype.clear = function () {
   this.gl.clear(this.gl.COLOR_BUFFER_BIT);
 };
