@@ -16,7 +16,7 @@ function GraphicsBase(element) {
 
   var self = this;
 
-  this.canvas.onresize = function () {
+  this.canvas.onresize = function() {
     if (!self.canvas) return;
     var bounds = self.canvas.getBoundingClientRect();
     self.resize(bounds.width, bounds.height);
@@ -43,7 +43,7 @@ Object.defineProperty(GraphicsBase.prototype, "height", {
  * @param {number} width
  * @param {number} height
  */
-GraphicsBase.prototype.resize = function (width, height) {
+GraphicsBase.prototype.resize = function(width, height) {
   if (!this.canvas) return;
 
   if (!width) width = this.canvas.clientWidth;
@@ -58,7 +58,7 @@ GraphicsBase.prototype.resize = function (width, height) {
  * @deprecated
  * @param {string} type
  */
-GraphicsBase.prototype.getContext = function (type) {
+GraphicsBase.prototype.getContext = function(type) {
   if (!this.canvas) return;
   return this.canvas.getContext(type);
 };
