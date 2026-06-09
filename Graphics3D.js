@@ -579,6 +579,11 @@ Graphics3D.prototype.startRendering = function() {
 
 Graphics3D.prototype.resize = function (width, height) {
   // return;
+  if (width === undefined) {
+    const bonding = canvas.getBoundingClientRect();
+    width = bonding.width;
+    height = bonding.height;
+  }
   const dpr = window.devicePixelRatio || 1;
   this.canvas.width = width * dpr;
   this.canvas.height = height * dpr;
