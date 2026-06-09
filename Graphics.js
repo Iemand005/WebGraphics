@@ -47,7 +47,7 @@ GraphicsBase.prototype.resize = function(width, height) {
   if (!this.canvas) return;
 
   if (typeof width === "undefined") {
-    const rect = canvas.getBoundingClientRect();
+    const rect = this.canvas.getBoundingClientRect();
     width = rect.width;
     height = rect.height;
   }
