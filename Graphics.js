@@ -46,8 +46,11 @@ Object.defineProperty(GraphicsBase.prototype, "height", {
 GraphicsBase.prototype.resize = function(width, height) {
   if (!this.canvas) return;
 
-  if (!width) width = this.canvas.clientWidth;
-  if (!height) height = this.canvas.clientHeight;
+  if (typeof width === "undefined") {
+    const rect = canvas.getBoundingClientRect();
+    width = rect.width;
+    height = rect.height;
+  }
 
   const dpr = window.devicePixelRatio || 1;
   this.width = width * dpr;

@@ -578,7 +578,6 @@ Graphics3D.prototype.startRendering = function() {
 };
 
 Graphics3D.prototype.resize = function (width, height) {
-  // return;
   if (width === undefined) {
     const bonding = canvas.getBoundingClientRect();
     width = bonding.width;
@@ -587,8 +586,9 @@ Graphics3D.prototype.resize = function (width, height) {
   const dpr = window.devicePixelRatio || 1;
   this.canvas.width = width * dpr;
   this.canvas.height = height * dpr;
-  // TODO: call graphicsbase resize
+
   this.gl.viewport(0, 0, this.canvas.width, this.canvas.height);
-  // ctx.scale(dpr, dpr);
   if (this.gl.scale) this.gl.scale(dpr, dpr);
+
+  // this.gl.setTransform(dpr, 0, 0, dpr, 0, 0);
 };
