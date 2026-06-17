@@ -246,11 +246,16 @@ Vector3D.prototype.normalize = function () {
 }
 
 Graphics3D.prototype.clear = function () {
-  this.gl.clear(this.gl.COLOR_BUFFER_BIT);
+	if (this.gl) this.gl.clear(this.gl.COLOR_BUFFER_BIT);
 };
-
+/**
+ * @param {number} r 
+ * @param {number} g 
+ * @param {number} b 
+ * @param {number} a 
+ */
 Graphics3D.prototype.setClearColor = function (r, g, b, a) {
-  this.gl.clearColor(r, g, b, a);
+  	if (this.gl) this.gl.clearColor(r, g, b, a);
 };
 
 Graphics3D.prototype.setRenderTarget = function (renderTarget) {
