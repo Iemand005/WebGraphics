@@ -4,12 +4,16 @@
 function Graphics3D(canvas) {
   /* @type {HTMLCanvasElement} */
   this.canvas = canvas;
+  /** @type {WebGLRenderingContext?} */
   this.gl = canvas.getContext("webgl");
   this.ie11 = false;
   if (!this.gl) {
-    this.gl = canvas.getContext("experimental-webgl");
+    var gl = canvas.getContext("experimental-webgl");
+	this.gl = gl;
     if (this.gl) this.ie11 = true;
   }
+
+  if (!this.gl) throw new Error("WebGL Not supported!");
 
   this.gl.clearColor(0, 0, 0, 0);
 
