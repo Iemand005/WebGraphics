@@ -583,7 +583,7 @@ Graphics3D.prototype.resize = function (width, height) {
     width = bonding.width;
     height = bonding.height;
   }
-  const dpr = window.devicePixelRatio || 1;
+  const dpr = 1 || window.devicePixelRatio || 1;
   this.canvas.width = width * dpr;
   this.canvas.height = height * dpr;
 
