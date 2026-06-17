@@ -576,17 +576,20 @@ Graphics3D.prototype.render = function(now) {
 Graphics3D.prototype.startRendering = function() {
   requestAnimationFrame(Graphics3D.prototype.render.bind(this));
 };
-
+/**
+ * @param {number} width 
+ * @param {number} height 
+ */
 Graphics3D.prototype.resize = function (width, height) {
   if (width === undefined) {
-    const bonding = canvas.getBoundingClientRect();
+    const bonding = this.canvas.getBoundingClientRect();
     width = bonding.width;
     height = bonding.height;
   }
-  const dpr = 1 || window.devicePixelRatio || 1;
+  const dpr = window.devicePixelRatio || 1;
   this.canvas.width = width * dpr;
   this.canvas.height = height * dpr;
-
+íf (!this.gl) return;
   this.gl.viewport(0, 0, this.canvas.width, this.canvas.height);
   if (this.gl.scale) this.gl.scale(dpr, dpr);
 
