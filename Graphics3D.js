@@ -263,40 +263,37 @@ Graphics3D.prototype.setRenderTarget = function (renderTarget) {
 };
 
 Graphics3D.prototype.initBlitResources = function () {
-  if (this.blitProgram) return;
+	if (this.blitProgram || !this.gl) return;
 
-  const gl = this.gl;
-  const vsSource =
-    "attribute vec2 aPosition; varying vec2 vUv; void main() { vUv = aPosition * 0.5 + 0.5; gl_Position = vec4(aPosition, 0.0, 1.0); }";
-  const fsSource =
-    "precision mediump float; uniform sampler2D uTexture; varying vec2 vUv; void main() { gl_FragColor = texture2D(uTexture, vUv); }";
+	const gl = this.gl;
+	const vsSource =
+		"attribute vec2 aPosition; varying vec2 vUv; void main() { vUv = aPosition * 0.5 + 0.5; gl_Position = vec4(aPosition, 0.0, 1.0); }";
+	const fsSource =
+		"precision mediump float; uniform sampler2D uTexture; varying vec2 vUv; void main() { gl_FragColor = texture2D(uTexture, vUv); }";
 
-  const vertexShader = this.loadShader(gl.VERTEX_SHADER, vsSource);
-  const fragmentShader = this.loadShader(gl.FRAGMENT_SHADER, fsSource);
-  const program = gl.createProgram();
-  gl.attachShader(program, vertexShader);
-  gl.attachShader(program, fragmentShader);
-  gl.linkProgram(program);
+	const vertexShader = this.loadShader(gl.VERTEX_SHADER, vsSource);
+	const fragmentShader = this.loadShader(gl.FRAGMENT_SHADER, fsSource);
+	if (!vertexShader || !fragmentShader) return;
+	const program = gl.createProgram();
+	gl.attachShader(program, vertexShader);
+	gl.attachShader(program, fragmentShader);
+	gl.linkProgram(program);
 
-  if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-    alert(
-      "Unable to initialize the blit shader program: " +
-        gl.getProgramInfoLog(program)
-    );
-    return;
-  }
+	if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+		alert(
+		"Unable to initialize the blit shader program: " +
+			gl.getProgramInfoLog(program)
+		);
+		return;
+	}
 
-  this.blitProgram = program;
-  this.blitAttribLocation = gl.getAttribLocation(program, "aPosition");
-  this.blitTextureLocation = gl.getUniformLocation(program, "uTexture");
+	this.blitProgram = program;
+	this.blitAttribLocation = gl.getAttribLocation(program, "aPosition");
+	this.blitTextureLocation = gl.getUniformLocation(program, "uTexture");
 
-  this.blitBuffer = gl.createBuffer();
-  gl.bindBuffer(gl.ARRAY_BUFFER, this.blitBuffer);
-  gl.bufferData(
-    gl.ARRAY_BUFFER,
-    new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]),
-    gl.STATIC_DRAW
-  );
+	this.blitBuffer = gl.createBuffer();
+	gl.bindBuffer(gl.ARRAY_BUFFER, this.blitBuffer);
+	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]), gl.STATIC_DRAW);
 };
 
 Graphics3D.prototype.presentRenderTarget = function () {
