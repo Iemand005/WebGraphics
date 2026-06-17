@@ -273,7 +273,7 @@ Graphics3D.prototype.initBlitResources = function () {
 
 	const vertexShader = this.loadShader(gl.VERTEX_SHADER, vsSource);
 	const fragmentShader = this.loadShader(gl.FRAGMENT_SHADER, fsSource);
-	if (!vertexShader || !fragmentShader) return;
+	if (!vertexShader || !fragmentShader) return console.warn("Failed to load shaders");
 	const program = gl.createProgram();
 	gl.attachShader(program, vertexShader);
 	gl.attachShader(program, fragmentShader);
