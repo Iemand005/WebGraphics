@@ -298,7 +298,7 @@ Graphics3D.prototype.initBlitResources = function () {
 
 Graphics3D.prototype.presentRenderTarget = function () {
   const gl = this.gl;
-  if (!this.renderTarget) return;
+  if (!this.renderTarget || !gl) return;
   if (!this.blitProgram) this.initBlitResources();
   if (!this.blitProgram || this.blitAttribLocation === -1) return;
 
@@ -317,8 +317,13 @@ Graphics3D.prototype.presentRenderTarget = function () {
 
   gl.drawArrays(gl.TRIANGLES, 0, 6);
 };
-
+/**
+ * @param {number} type 
+ * @param {string} source 
+ * @returns {WebGLShader?}
+ */
 Graphics3D.prototype.loadShader = function (type, source) {
+	if (!this.gl) return null;
   const shader = this.gl.createShader(type);
   this.gl.shaderSource(shader, source);
   this.gl.compileShader(shader);
