@@ -322,6 +322,8 @@ Graphics3D.prototype.presentRenderTarget = function () {
  * @param {string} source 
  * @returns {WebGLShader?}
  */
+var hi;
+
 Graphics3D.prototype.loadShader = function (type, source) {
 	if (!this.gl) return null;
   const shader = this.gl.createShader(type);
