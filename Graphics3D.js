@@ -581,17 +581,17 @@ Graphics3D.prototype.startRendering = function() {
  * @param {number} height 
  */
 Graphics3D.prototype.resize = function (width, height) {
-  if (width === undefined) {
-    const bonding = this.canvas.getBoundingClientRect();
-    width = bonding.width;
-    height = bonding.height;
-  }
-  const dpr = window.devicePixelRatio || 1;
-  this.canvas.width = width * dpr;
-  this.canvas.height = height * dpr;
-íf (!this.gl) return;
-  this.gl.viewport(0, 0, this.canvas.width, this.canvas.height);
-  if (this.gl.scale) this.gl.scale(dpr, dpr);
+	if (width === undefined) {
+		const bonding = this.canvas.getBoundingClientRect();
+		width = bonding.width;
+		height = bonding.height;
+	}
+	const dpr = window.devicePixelRatio || 1;
+	this.canvas.width = width * dpr;
+	this.canvas.height = height * dpr;
+	if (!this.gl) return;
+	this.gl.viewport(0, 0, this.canvas.width, this.canvas.height);
+	if (this.gl.scale) this.gl.scale(dpr, dpr);
 
-  // this.gl.setTransform(dpr, 0, 0, dpr, 0, 0);
+	// this.gl.setTransform(dpr, 0, 0, dpr, 0, 0);
 };
