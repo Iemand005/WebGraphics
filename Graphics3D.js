@@ -9,6 +9,7 @@ function Graphics3D(canvas) {
   this.ie11 = false;
   if (!this.gl) {
     var gl = canvas.getContext("experimental-webgl");
+	// @ts-ignore
 	this.gl = gl;
     if (this.gl) this.ie11 = true;
   }
