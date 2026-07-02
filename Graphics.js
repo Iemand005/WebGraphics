@@ -1,5 +1,6 @@
 /**
  * @constructor
+ * @class
  * @param {HTMLCanvasElement | string} [element]
  */
 function GraphicsBase(element) {

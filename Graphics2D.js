@@ -1,8 +1,9 @@
 
 /**
  * @constructor
+ * @class
+ * @extends {GraphicsBase}
  * @param {string | HTMLCanvasElement} [element] 
- * @this {Graphics2D & GraphicsBase}
  */
 function Graphics2D(element) {
   GraphicsBase.call(this, element);
