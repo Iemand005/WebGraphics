@@ -1,7 +1,7 @@
 
 /**
  * @constructor
- * @param {string | HTMLCanvasElement | null} element 
+ * @param {string | HTMLCanvasElement} [element] 
  * @this {Graphics2D & GraphicsBase}
  */
 function Graphics2D(element) {
