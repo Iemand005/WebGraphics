@@ -40,13 +40,13 @@ Object.defineProperty(GraphicsBase.prototype, "height", {
 });
 
 /**
- * @param {number} width
- * @param {number} height
+ * @param {number} [width]
+ * @param {number} [height]
  */
 GraphicsBase.prototype.resize = function(width, height) {
   if (!this.canvas) return;
 
-  if (typeof width === "undefined") {
+  if (typeof width === "undefined" || typeof height === "undefined") {
     const rect = this.canvas.getBoundingClientRect();
     width = rect.width;
     height = rect.height;
