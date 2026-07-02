@@ -6,6 +6,7 @@
  */
 function Graphics2D(element) {
   GraphicsBase.call(this, element);
+  if (!this.canvas) throw new Error("Canvas not found");
   this.ctx = this.canvas.getContext("2d");
 }
 
