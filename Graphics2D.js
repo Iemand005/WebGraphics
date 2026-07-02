@@ -8,7 +8,9 @@ function Graphics2D(element) {
 	GraphicsBase.call(this, element);
 	if (!this.canvas) throw new Error("Canvas not found");
 	const ctx = this.canvas.getContext("2d");
-	if (ctx) this.ctx = ctx;
+	if (!ctx) throw new Error("No 2d graphics??");
+	/** @type {CanvasRenderingContext2D} */
+	this.ctx = ctx;
 }
 
 Graphics2D.prototype = Object.create(GraphicsBase.prototype);
