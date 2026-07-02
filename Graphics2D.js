@@ -1,7 +1,6 @@
 
 /**
  * @constructor
-//  * @augments {GraphicsBase}
  * @param {string | HTMLCanvasElement | null} element 
  * @this {Graphics2D & GraphicsBase}
  */
@@ -11,4 +10,4 @@ function Graphics2D(element) {
 }
 
 Graphics2D.prototype = Object.create(GraphicsBase.prototype);
-Graphics2D.prototype.constructor = GraphicsBase;
+Graphics2D.prototype.constructor = Graphics2D;
