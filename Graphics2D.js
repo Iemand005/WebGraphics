@@ -11,11 +11,6 @@ function Graphics2D(element) {
 	if (!ctx) throw new Error("No 2d graphics??");
 	/** @type {CanvasRenderingContext2D} */
 	this.ctx = ctx;
-
-	var self  = this;
-	this.canvas.onresize = function() {
-		self.resize();
-	}
 }
 
 Graphics2D.prototype = Object.create(GraphicsBase.prototype);
