@@ -2,7 +2,7 @@
  * @param {HTMLCanvasElement | string} [element]
  */
 function GraphicsBase(element) {
-  /** @type {HTMLCanvasElement?} */
+  /** @type {HTMLCanvasElement | null} */
   this.canvas = null;
 
   if (element instanceof HTMLCanvasElement) this.canvas = element;

@@ -4,7 +4,7 @@
 function Graphics3D(canvas) {
   /* @type {HTMLCanvasElement} */
   this.canvas = canvas;
-  /** @type {WebGLRenderingContext?} */
+  /** @type {WebGLRenderingContext | null} */
   this.gl = canvas.getContext("webgl");
   this.ie11 = false;
   if (!this.gl) {
@@ -320,7 +320,7 @@ Graphics3D.prototype.presentRenderTarget = function () {
 /**
  * @param {number} type 
  * @param {string} source 
- * @returns {WebGLShader?}
+ * @returns {WebGLShader | null}
  */
 Graphics3D.prototype.loadShader = function (type, source) {
 	if (!this.gl) return null;
