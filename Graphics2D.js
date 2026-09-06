@@ -16,3 +16,7 @@ function Graphics2D(element) {
 
 Graphics2D.prototype = Object.create(GraphicsBase.prototype);
 Graphics2D.prototype.constructor = Graphics2D;
+
+var a = new Graphics2D("");
+
+a.
