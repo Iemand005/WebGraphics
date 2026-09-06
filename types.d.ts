@@ -4,12 +4,9 @@ interface GraphicsBase {
 
 interface Graphics2D extends GraphicsBase {
 	ctx: CanvasRenderingContext2D;
-	resize();
 }
 
 interface Graphics3D extends GraphicsBase {
-	ctx: CanvasRenderingContext2D;
-	resize();
 }
 
 declare function GraphicsBase(element?: string | HTMLCanvasElement): GraphicsBase;
