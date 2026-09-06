@@ -1,6 +1,7 @@
 
 /**
  * @constructor
+ * @class
  * @this {Graphics2D}
  * @param {string | HTMLCanvasElement} [element] 
  */

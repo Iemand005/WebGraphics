@@ -1,4 +1,5 @@
 /**
+ * @class
  * @param {HTMLCanvasElement} canvas
  */
 function Graphics3D(canvas) {
