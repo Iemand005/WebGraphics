@@ -12,6 +12,6 @@ interface Graphics3D extends GraphicsBase {
 	resize();
 }
 
-declare function GraphicsBase(element: string | HTMLCanvasElement): GraphicsBase;
-declare function Graphics2D(element: string | HTMLCanvasElement): Graphics2D;
-declare function Graphics3D(element: string | HTMLCanvasElement): Graphics3D;
+declare function GraphicsBase(element?: string | HTMLCanvasElement): GraphicsBase;
+declare function Graphics2D(element?: string | HTMLCanvasElement): Graphics2D;
+declare function Graphics3D(element?: string | HTMLCanvasElement): Graphics3D;
