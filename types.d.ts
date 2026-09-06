@@ -3,7 +3,6 @@ interface GraphicsBase {
 }
 
 interface Graphics2D extends GraphicsBase {
-	ctx: CanvasRenderingContext2D;
 }
 
 interface Graphics3D extends GraphicsBase {
