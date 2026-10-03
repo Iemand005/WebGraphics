@@ -20,14 +20,13 @@ function GraphicsBase(element) {
   var self = this;
 
   this.canvas.onresize = function() {
-    if (!self.canvas) return;
     var bounds = self.canvas.getBoundingClientRect();
     self.resize(bounds.width, bounds.height);
   };
 }
 
 Object.defineProperty(GraphicsBase.prototype, "width", {
-  get: function() { return this.canvas ? this.canvas.width : 0; },
+  get: function() { return this.canvas.width; },
   set: function(width) {
     if (typeof width === "number" && this.canvas)
       this.canvas.width = width;
@@ -35,7 +34,7 @@ Object.defineProperty(GraphicsBase.prototype, "width", {
 });
 
 Object.defineProperty(GraphicsBase.prototype, "height", {
-  get: function() { return this.canvas ? this.canvas.height : 0; },
+  get: function() { return this.canvas.height; },
   set: function(height) {
     if (typeof height === "number" && this.canvas)
       this.canvas.height = height;
@@ -47,8 +46,6 @@ Object.defineProperty(GraphicsBase.prototype, "height", {
  * @param {number} [height]
  */
 GraphicsBase.prototype.resize = function(width, height) {
-  if (!this.canvas) return;
-
   if (typeof width === "undefined" || typeof height === "undefined") {
     const rect = this.canvas.getBoundingClientRect();
     width = rect.width;
@@ -65,6 +62,5 @@ GraphicsBase.prototype.resize = function(width, height) {
  * @param {string} type
  */
 GraphicsBase.prototype.getContext = function(type) {
-  if (!this.canvas) return;
   return this.canvas.getContext(type);
 };
