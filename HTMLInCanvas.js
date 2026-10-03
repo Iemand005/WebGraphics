@@ -36,7 +36,7 @@ class CanvasMaker extends Graphics3D {
 		const W = c.width, H = c.height;
 		gl.viewport(0, 0, W, H);
 
-		const FRAG = `precision mediump float; uniform sampler2D s; varying vec2 v; void main() { gl_FragColor = texture2D(s, v); }`;
+		const FRAG = /* GLSL */`precision mediump float; uniform sampler2D s; varying vec2 v; void main() { gl_FragColor = texture2D(s, v); }`;
 
 		// ---------- background: one big triangle covering the screen ----------
 		const bgProg = this.initShaderProgram(/* GLSL */`attribute vec2 p; varying vec2 v; void main() { v = vec2(p.x * .5 + .5, .5 - p.y * .5); gl_Position = vec4(p, 0., 1.); }`, FRAG);
@@ -45,7 +45,7 @@ class CanvasMaker extends Graphics3D {
 		gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
 
 		// ---------- cube ----------
-		const cubeProg = this.initShaderProgram(`
+		const cubeProg = this.initShaderProgram(/* GLSL */`
 	attribute vec3 p; attribute vec2 t; uniform float a, asp; varying vec2 v;
 	void main() {
 		vec3 q = p;
