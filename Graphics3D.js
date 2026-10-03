@@ -1,13 +1,14 @@
 /**
+ * @constructor
  * @class
- * @param {HTMLCanvasElement} canvas
+ * @this {Graphics3D & GraphicsBase}
+ * @param {string | HTMLCanvasElement} [element] 
  * @param {boolean} [webGL2] 
  */
-function Graphics3D(canvas, webGL2) {
-  /* @type {HTMLCanvasElement} */
-  this.canvas = canvas;
+function Graphics3D(element, webGL2) {
+  GraphicsBase.call(this, element);
   
-  this.gl = (webGL2 && canvas.getContext("webgl2")) || canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+  this.gl = (webGL2 && this.canvas.getContext("webgl2")) || this.canvas.getContext("webgl") || this.canvas.getContext("experimental-webgl");
 
   if (!this.gl) throw new Error("WebGL not supported!");
 
