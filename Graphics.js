@@ -12,7 +12,7 @@ function GraphicsBase(element) {
     if (canvas instanceof HTMLCanvasElement) this.canvas = canvas;
   } else this.canvas = document.createElement("canvas");
 
-  if (!this.canvas) return;
+  if (!this.canvas) throw new Error("Object is not a canvas!");
 
   var self = this;
 
