@@ -29,6 +29,13 @@ interface WebGLRenderingContextBase {
 		element: Element | ElementImage
 	): void;
 
+	// 155+ with explicit size (the WICG issue mentions width/height params)
+	texElementSubImage2D?(
+		target: GLenum, level: GLint, xoffset: GLint, yoffset: GLint,
+		element: Element | ElementImage,
+		size?: { width: number; height: number }
+	): void;
+
 	// Chrome 150-154
 	texElementImage2D?(
 		target: GLenum,
@@ -43,6 +50,13 @@ interface WebGLRenderingContextBase {
 		internalformat: GLenum,   // gl.RGBA
 		format: GLenum,           // gl.RGBA
 		type: GLenum,             // gl.UNSIGNED_BYTE
+		element: Element | ElementImage
+	): void;
+
+	texElementImage2D?(
+		target: GLenum, level: GLint, internalformat: GLenum,
+		width: GLsizei, height: GLsizei, border: GLint,
+		format: GLenum, type: GLenum,
 		element: Element | ElementImage
 	): void;
 }
