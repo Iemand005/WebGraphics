@@ -213,9 +213,9 @@ var mat4 = {
 
 /**
  * 
- * @param {number | {x:number,y:number,z:number}} x 
- * @param {number} y 
- * @param {number} z 
+ * @param {number | {x:number,y:number,z:number}} [x] 
+ * @param {number} [y] 
+ * @param {number} [z] 
  */
 function Vector3D(x, y, z) {
     this.x = 0;
@@ -223,10 +223,10 @@ function Vector3D(x, y, z) {
     this.z = 0;
     if (typeof x === "number") {
         this.x = x;
-        if (y == null && z == null) 
+        if (y === undefined || z === undefined) 
             this.y = x, this.z = x;
         else this.y = y, this.z = z;
-    } else if (typeof x === "object" && x.x && x.y && x.z) {
+    } else if (typeof x == "object" && x.x && x.y && x.z) {
         this.x = x.x, this.y = x.y, this.z = x.z;
     }
 }
