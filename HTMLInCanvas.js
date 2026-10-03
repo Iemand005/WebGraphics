@@ -101,6 +101,8 @@ class CanvasMaker extends Graphics3D {
 
 		var self = this;
 
+		this.hasDepthBuffer = true;
+
 		// ---------- draw ----------
 		(function draw(t) {
 			self.clear();
