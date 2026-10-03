@@ -258,13 +258,13 @@ Graphics3D.prototype.clear = function () {
 	if (this.gl) this.gl.clear(mask);
 };
 /**
- * @param {number} r 
- * @param {number} g 
- * @param {number} b 
- * @param {number} a 
+ * @param {number} red 
+ * @param {number} green 
+ * @param {number} blue 
+ * @param {number} alpha 
  */
-Graphics3D.prototype.setClearColor = function (r, g, b, a) {
-  	if (this.gl) this.gl.clearColor(r, g, b, a);
+Graphics3D.prototype.setClearColor = function (red, green, blue, alpha) {
+  	if (this.gl) this.gl.clearColor(red, green, blue, alpha);
 };
 
 Graphics3D.prototype.setRenderTarget = function (renderTarget) {
