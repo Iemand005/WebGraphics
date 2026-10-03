@@ -1,7 +1,6 @@
 /**
  * @constructor
  * @class
- * @this {Graphics3D & GraphicsBase}
  * @param {string | HTMLCanvasElement} [element] 
  * @param {boolean} [webGL2] 
  */
