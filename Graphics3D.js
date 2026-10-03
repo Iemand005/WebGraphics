@@ -600,6 +600,7 @@ Graphics3D.prototype.startRendering = function() {
  * @param {number} height 
  */
 Graphics3D.prototype.resize = function (width, height) {
-	GraphicsBase.prototype.resize.call(this, width, height);
+	var dpr = GraphicsBase.prototype.resize.call(this, width, height);
 	this.gl.viewport(0, 0, this.canvas.width, this.canvas.height);
+	return dpr;
 };
