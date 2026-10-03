@@ -1,6 +1,4 @@
-export {};
 
-declare global {
 	interface HTMLCanvasElement {
 		onpaint: ()=> void;
 		requestPaint: ()=>vid;
@@ -55,5 +53,3 @@ declare global {
 		readonly width: number;
 		readonly height: number;
 	}
-
-}
