@@ -370,6 +370,10 @@ Graphics3D.prototype.initShaderProgram = function (vsSource, fsSource) {
   return shaderProgram;
 };
 
+/**
+ * @param {string} vsSource
+ * @param {string} fsSource
+ */
 Graphics3D.prototype.loadShaders = function (vsSource, fsSource) {
   const gl = this.gl;
   this.shaderProgram = this.initShaderProgram(vsSource, fsSource);
