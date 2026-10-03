@@ -47,6 +47,8 @@ declare global {
 		): void;
 		requestPaint(): void;
 		onpaint: ((this: HTMLCanvasElement, ev: Event) => any) | null;
+
+		getContext(contextId: "experimental-webgl", options?: WebGLContextAttributes): WebGLRenderingContext | null;
 	}
 
 	interface ElementImage {

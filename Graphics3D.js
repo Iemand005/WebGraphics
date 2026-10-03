@@ -6,15 +6,8 @@
 function Graphics3D(canvas, webGL2) {
   /* @type {HTMLCanvasElement} */
   this.canvas = canvas;
-  /** @type {WebGLRenderingContext | WebGL2RenderingContext | null} */
-  this.gl = (webGL2 && canvas.getContext("webgl2")) || canvas.getContext("webgl");
-  this.ie11 = false;
-  if (!this.gl) {
-    var gl = canvas.getContext("experimental-webgl");
-	// @ts-ignore
-	this.gl = gl;
-    if (this.gl) this.ie11 = true;
-  }
+  
+  this.gl = (webGL2 && canvas.getContext("webgl2")) || canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
 
   if (!this.gl) throw new Error("WebGL not supported!");
 
