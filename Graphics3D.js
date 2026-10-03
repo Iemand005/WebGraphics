@@ -16,7 +16,7 @@ function Graphics3D(canvas, webGL2) {
     if (this.gl) this.ie11 = true;
   }
 
-  if (!this.gl) throw new Error("WebGL Not supported!");
+  if (!this.gl) throw new Error("WebGL not supported!");
 
   this.gl.clearColor(0, 0, 0, 0);
 
