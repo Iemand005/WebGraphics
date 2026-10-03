@@ -30,10 +30,10 @@ class CanvasMaker extends Graphics3D {
 	}
 
 	startDrawing() {
-		const c = this.canvas, gl = c.getContext('webgl2');
+		const gl = this.canvas.getContext('webgl2');
 		if (!gl) return;
-		c.width = innerWidth; c.height = innerHeight;
-		const W = c.width, H = c.height;
+		this.canvas.width = innerWidth; this.canvas.height = innerHeight;
+		const W = this.canvas.width, H = this.canvas.height;
 		gl.viewport(0, 0, W, H);
 
 		const FRAG = /* GLSL */`precision mediump float; uniform sampler2D s; varying vec2 v; void main() { gl_FragColor = texture2D(s, v); }`;
@@ -87,7 +87,7 @@ class CanvasMaker extends Graphics3D {
 		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
 		gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, W, H, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
 
-		c.onpaint = () => {
+		this.canvas.onpaint = () => {
 			const panel = this.element;
 			if (gl.texElementSubImage2D) gl.texElementSubImage2D(gl.TEXTURE_2D, 0, 0, 0, panel, { width: W, height: H });
 			else gl.texElementImage2D(gl.TEXTURE_2D, 0, gl.RGBA, W, H, 0, gl.RGBA, gl.UNSIGNED_BYTE, panel);
@@ -95,9 +95,9 @@ class CanvasMaker extends Graphics3D {
 			// WebGL doesn't sync hit-testing automatically. The background triangle shows the
 			// page 1:1 with the canvas, so the element's drawn position is the identity transform.
 			// (The cube is not registered, so only the fullscreen background is interactive.)
-			if (c.updateElementGeometry) c.updateElementGeometry(panel, { canvasTransform: new DOMMatrix() });
+			if (this.canvas.updateElementGeometry) this.canvas.updateElementGeometry(panel, { canvasTransform: new DOMMatrix() });
 		};
-		c.requestPaint();
+		this.canvas.requestPaint();
 
 		var self = this;
 
