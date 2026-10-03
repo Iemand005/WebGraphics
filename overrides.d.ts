@@ -13,8 +13,28 @@ declare global {
 	}
 
 	interface WebGL2RenderingContext {
-		
-		texElementSubImage2D?: unknown;
+	texElementSubImage2D(
+		target: GLenum,
+		level: GLint,
+		xoffset: GLint,
+		yoffset: GLint,
+		element: Element | ElementImage
+	): void;
+	}
+
+	interface HTMLCanvasElement {
+	captureElementImage(element: Element): ElementImage;
+	updateElementGeometry(
+		element: Element,
+		options: { canvasTransform: DOMMatrix }
+	): void;
+	requestPaint(): void;
+	onpaint: ((this: HTMLCanvasElement, ev: Event) => any) | null;
+	}
+
+	interface ElementImage {
+	readonly width: number;
+	readonly height: number;
 	}
 
 }
