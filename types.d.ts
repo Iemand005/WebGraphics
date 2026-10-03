@@ -1,9 +1,6 @@
-interface GraphicsBase {
-	canvas: HTMLCanvasElement;
-}
+interface GraphicsBase {}
 
 interface Graphics2D extends GraphicsBase {}
-
 interface Graphics3D extends GraphicsBase {}
 
 declare function GraphicsBase(element?: string | HTMLCanvasElement): GraphicsBase;
