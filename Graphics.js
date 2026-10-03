@@ -56,11 +56,3 @@ GraphicsBase.prototype.resize = function(width, height) {
   this.width = width * dpr;
   this.height = height * dpr;
 };
-
-/**
- * @deprecated
- * @param {string} type
- */
-GraphicsBase.prototype.getContext = function(type) {
-  return this.canvas.getContext(type);
-};
