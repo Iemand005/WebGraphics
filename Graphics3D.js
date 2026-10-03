@@ -242,7 +242,6 @@ Vector3D.prototype.normalize = function () {
 }
 
 Graphics3D.prototype.clear = function () {
-  if (!this.gl) return;
   var mask = this.gl.COLOR_BUFFER_BIT;
   if (this.hasDepthBuffer) mask |= this.gl.DEPTH_BUFFER_BIT;
 	this.gl.clear(mask);
@@ -254,10 +253,10 @@ Graphics3D.prototype.clear = function () {
  * @param {number} alpha 
  */
 Graphics3D.prototype.setClearColor = function (red, green, blue, alpha) {
-  	if (this.gl) this.gl.clearColor(red, green, blue, alpha);
+  this.gl.clearColor(red, green, blue, alpha);
 };
 
-Graphics3D.prototype.8 = function (renderTarget) {
+Graphics3D.prototype.setRenderTarget = function (renderTarget) {
   this.renderTarget = renderTarget;
 };
 
