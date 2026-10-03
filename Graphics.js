@@ -25,7 +25,7 @@ function GraphicsBase(element) {
 Object.defineProperty(GraphicsBase.prototype, "width", {
 	get: function() { return this.canvas.width; },
 	set: function(width) {
-		if (typeof width === "number" && this.canvas)
+		if (typeof width === "number")
 			this.canvas.width = width;
 	}
 });
@@ -33,7 +33,7 @@ Object.defineProperty(GraphicsBase.prototype, "width", {
 Object.defineProperty(GraphicsBase.prototype, "height", {
 	get: function() { return this.canvas.height; },
 	set: function(height) {
-		if (typeof height === "number" && this.canvas)
+		if (typeof height === "number")
 			this.canvas.height = height;
 	}
 });
