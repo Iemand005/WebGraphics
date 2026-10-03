@@ -19,10 +19,7 @@ function GraphicsBase(element) {
 
   var self = this;
 
-  this.canvas.onresize = function() {
-    var bounds = self.canvas.getBoundingClientRect();
-    self.resize(bounds.width, bounds.height);
-  };
+  this.canvas.onresize = function() { self.resize(); };
 }
 
 Object.defineProperty(GraphicsBase.prototype, "width", {
