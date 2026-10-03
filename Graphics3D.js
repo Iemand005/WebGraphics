@@ -261,7 +261,7 @@ Graphics3D.prototype.setRenderTarget = function (renderTarget) {
 };
 
 Graphics3D.prototype.initBlitResources = function () {
-	if (this.blitProgram || !this.gl) return;
+	if (this.blitProgram) return;
 
 	const gl = this.gl;
 	const vsSource =
@@ -321,7 +321,6 @@ Graphics3D.prototype.presentRenderTarget = function () {
  * @returns {WebGLShader | null}
  */
 Graphics3D.prototype.loadShader = function (type, source) {
-	if (!this.gl) return null;
   const shader = this.gl.createShader(type);
   if (!shader) return null;
   this.gl.shaderSource(shader, source);
@@ -341,6 +340,9 @@ Graphics3D.prototype.loadShader = function (type, source) {
   return shader;
 };
 
+/**
+ * @package
+ */
 Graphics3D.prototype.initShaderProgram = function (vsSource, fsSource) {
   const vertexShader = this.loadShader(this.gl.VERTEX_SHADER, vsSource);
   const fragmentShader = this.loadShader(this.gl.FRAGMENT_SHADER, fsSource);
