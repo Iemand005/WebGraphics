@@ -14,7 +14,7 @@ function GraphicsBase(element) {
 
   if (!canvas) throw new Error("Object is not a canvas!");
 
-
+  /** @type {HTMLCanvasElement} */
   this.canvas = canvas;
 
   var self = this;
