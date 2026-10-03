@@ -99,9 +99,12 @@ class CanvasMaker extends Graphics3D {
 		};
 		c.requestPaint();
 
+		var self = this;
+
 		// ---------- draw ----------
 		(function draw(t) {
-			gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+			self.clear();
+			// gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
 			// 1) background triangle (no depth, so the cube always lands on top)
 			gl.disable(gl.DEPTH_TEST);
