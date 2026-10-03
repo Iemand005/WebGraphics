@@ -70,7 +70,7 @@ interface HTMLCanvasElement {
 	requestPaint?(): void;
 	onpaint?(this: HTMLCanvasElement, ev: Event): void;
 
-	getContext?(contextId: "experimental-webgl", options?: WebGLContextAttributes): WebGLRenderingContext | null;
+	getContext(contextId: "experimental-webgl", options?: WebGLContextAttributes): WebGLRenderingContext | null;
 }
 
 interface ElementImage {
