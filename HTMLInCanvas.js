@@ -95,7 +95,7 @@ class CanvasMaker extends Graphics3D {
 			// WebGL doesn't sync hit-testing automatically. The background triangle shows the
 			// page 1:1 with the canvas, so the element's drawn position is the identity transform.
 			// (The cube is not registered, so only the fullscreen background is interactive.)
-			if (this.canvas.updateElementGeometry) this.canvas.updateElementGeometry(panel, { canvasTransform: new DOMMatrix() });
+			if (this.canvas.updateElementGeometry && panel) this.canvas.updateElementGeometry(panel, { canvasTransform: new DOMMatrix() });
 		};
 		this.canvas.requestPaint();
 
