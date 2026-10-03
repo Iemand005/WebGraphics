@@ -1,6 +1,6 @@
 
 
-class CanvasMaker {
+class CanvasMaker : Graphics3D {
 
 	canvas = document.createElement("canvas");;
 
