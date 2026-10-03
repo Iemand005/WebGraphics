@@ -39,12 +39,7 @@ class CanvasMaker extends Graphics3D {
 		const FRAG = `precision mediump float; uniform sampler2D s; varying vec2 v; void main() { gl_FragColor = texture2D(s, v); }`;
 
 		// ---------- background: one big triangle covering the screen ----------
-		const bgProg = this.initShaderProgram(`
-	attribute vec2 p; varying vec2 v;
-	void main() {
-		v = vec2(p.x * .5 + .5, .5 - p.y * .5);   // texture is top-down
-		gl_Position = vec4(p, 0., 1.);
-	}`, FRAG);
+		const bgProg = this.initShaderProgram(/* GLSL */`attribute vec2 p; varying vec2 v; void main() { v = vec2(p.x * .5 + .5, .5 - p.y * .5); gl_Position = vec4(p, 0., 1.); }`, FRAG);
 		const bgBuf = gl.createBuffer();
 		gl.bindBuffer(gl.ARRAY_BUFFER, bgBuf);
 		gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
