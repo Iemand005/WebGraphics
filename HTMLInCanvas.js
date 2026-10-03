@@ -29,8 +29,8 @@ class CanvasMaker extends Graphics3D {
 		this.startDrawing();
 	}
 
-	startDrawing() {
-		const gl = this.canvas.getContext('webgl2');
+	startDrawing() {t
+		const gl = this.gl;
 		if (!gl) return;
 		this.canvas.width = innerWidth; this.canvas.height = innerHeight;
 		const W = this.canvas.width, H = this.canvas.height;
