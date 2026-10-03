@@ -341,11 +341,14 @@ Graphics3D.prototype.loadShader = function (type, source) {
 };
 
 /**
- * @package
+ * @param {string} vsSource
+ * @param {string} fsSource
  */
 Graphics3D.prototype.initShaderProgram = function (vsSource, fsSource) {
   const vertexShader = this.loadShader(this.gl.VERTEX_SHADER, vsSource);
   const fragmentShader = this.loadShader(this.gl.FRAGMENT_SHADER, fsSource);
+
+  if (!vertexShader || !fragmentShader) return;
 
   // Create the shader program
 
