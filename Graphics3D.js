@@ -6,11 +6,11 @@
 function Graphics3D(canvas, webGL2) {
   /* @type {HTMLCanvasElement} */
   this.canvas = canvas;
-  /** @type {WebGLRenderingContext | null} */
+  /** @type {WebGLRenderingContext | WebGL2RenderingContext | null} */
   this.gl = null;
 
   if (webGL2) this.gl = canvas.getContext("webgl2");
-  if (!webGL2 || this.gl === null) this.gl = canvas.getContext("webgl2");
+  if (!webGL2 || this.gl === null) this.gl = canvas.getContext("webgl");
   this.ie11 = false;
   if (!this.gl) {
     var gl = canvas.getContext("experimental-webgl");
