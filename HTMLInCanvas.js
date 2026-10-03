@@ -2,13 +2,14 @@
 
 class CanvasMaker extends Graphics3D {
 
-	canvas = document.createElement("canvas");;
+	// canvas ;;
 
 	/** @type {HTMLElement | null} */
 	element = null;
 
 	constructor() {
-		super()
+		super(document.createElement("canvas"), true);
+		// this.canvas = this
 	}
 
 	/** @param {HTMLElement} element */
