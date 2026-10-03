@@ -1,10 +1,4 @@
 
-// @type
-
-/**
- * @typedef CanvasContext
- * @property {WebGL2RenderingContext} gl
- */
 
 class CanvasMaker {
 
@@ -30,8 +24,7 @@ class CanvasMaker {
 		this.startDrawing();
 	}
 
-	/** @param {CanvasContext} ctx */
-	startDrawing(ctx) {
+	startDrawing() {
 		const c = this.canvas, gl = c.getContext('webgl2');
 		if (!gl) return;
 c.width = innerWidth; c.height = innerHeight;

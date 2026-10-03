@@ -1,12 +1,16 @@
 /**
  * @class
  * @param {HTMLCanvasElement} canvas
+ * @param {boolean} [webGL2] 
  */
-function Graphics3D(canvas) {
+function Graphics3D(canvas, webGL2) {
   /* @type {HTMLCanvasElement} */
   this.canvas = canvas;
   /** @type {WebGLRenderingContext | null} */
-  this.gl = canvas.getContext("webgl");
+  this.gl = null;
+
+  if (webGL2) this.gl = canvas.getContext("webgl2");
+  if (!webGL2 || this.gl === null) this.gl = canvas.getContext("webgl2");
   this.ie11 = false;
   if (!this.gl) {
     var gl = canvas.getContext("experimental-webgl");
