@@ -50,7 +50,7 @@ const FRAG = `precision mediump float; uniform sampler2D s; varying vec2 v;
 							void main() { gl_FragColor = texture2D(s, v); }`;
 
 // ---------- background: one big triangle covering the screen ----------
-const bgProg = makeProgram(`
+const bgProg = this.initShaderProgram(`
 	attribute vec2 p; varying vec2 v;
 	void main() {
 		v = vec2(p.x * .5 + .5, .5 - p.y * .5);   // texture is top-down
@@ -61,7 +61,7 @@ gl.bindBuffer(gl.ARRAY_BUFFER, bgBuf);
 gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
 
 // ---------- cube ----------
-const cubeProg = makeProgram(`
+const cubeProg = this.initShaderProgram(`
 	attribute vec3 p; attribute vec2 t; uniform float a, asp; varying vec2 v;
 	void main() {
 		vec3 q = p;
