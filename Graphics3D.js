@@ -428,7 +428,6 @@ function Camera() {
  */
 Graphics3D.prototype.drawScene = function (programInfo, deltaTime, camera) {
   const gl = this.gl;
-  if (!gl) return;
 
   if (this.renderTarget) {
     gl.bindFramebuffer(gl.FRAMEBUFFER, this.renderTarget.framebuffer);
@@ -496,8 +495,8 @@ Graphics3D.prototype.drawScene = function (programInfo, deltaTime, camera) {
     const stride = 0; // how many bytes to get from one set of values to the next
     // 0 = use type and numComponents above
     const offset = 0; // how many bytes inside the buffer to start from
-    if (!this.buffers) return;
-    gl.bindBuffer(gl.ARRAY_BUFFER, this.buffers.position);
+
+	gl.bindBuffer(gl.ARRAY_BUFFER, this.buffers.position);
     gl.vertexAttribPointer(
       this.programInfo.attribLocations.vertexPosition,
       numComponents,
@@ -609,7 +608,6 @@ Graphics3D.prototype.resize = function (width, height) {
 	const dpr = window.devicePixelRatio || 1;
 	this.canvas.width = width * dpr;
 	this.canvas.height = height * dpr;
-	if (!this.gl) return;
 	this.gl.viewport(0, 0, this.canvas.width, this.canvas.height);
 	if (this.gl.scale) this.gl.scale(dpr, dpr);
 
