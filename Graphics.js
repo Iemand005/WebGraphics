@@ -4,15 +4,18 @@
  */
 function GraphicsBase(element) {
   /** @type {HTMLCanvasElement | null} */
-  this.canvas = null;
+  var canvas = null;
 
-  if (element instanceof HTMLCanvasElement) this.canvas = element;
+  if (element instanceof HTMLCanvasElement) canvas = element;
   else if (typeof element === "string") {
-    var canvas = document.getElementById(element);
-    if (canvas instanceof HTMLCanvasElement) this.canvas = canvas;
-  } else this.canvas = document.createElement("canvas");
+    var c = document.getElementById(element);
+    if (c instanceof HTMLCanvasElement) canvas = c;
+  } else canvas = document.createElement("canvas");
 
-  if (!this.canvas) throw new Error("Object is not a canvas!");
+  if (!canvas) throw new Error("Object is not a canvas!");
+
+
+  this.canvas = canvas;
 
   var self = this;
 
