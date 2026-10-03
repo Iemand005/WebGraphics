@@ -255,7 +255,7 @@ Graphics3D.prototype.clear = function () {
   if (!this.gl) return;
   var mask = this.gl.COLOR_BUFFER_BIT;
   if (this.hasDepthBuffer) mask |= this.gl.DEPTH_BUFFER_BIT;
-	if (this.gl) this.gl.clear(mask);
+	this.gl.clear(mask);
 };
 /**
  * @param {number} red 
