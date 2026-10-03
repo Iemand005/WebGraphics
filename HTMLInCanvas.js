@@ -31,7 +31,6 @@ class CanvasMaker extends Graphics3D {
 
 	startDrawing() {
 		const gl = this.gl;
-		if (!gl) return;
 		this.canvas.width = innerWidth; this.canvas.height = innerHeight;
 		const W = this.canvas.width, H = this.canvas.height;
 		gl.viewport(0, 0, W, H);
