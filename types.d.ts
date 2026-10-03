@@ -62,15 +62,15 @@ interface WebGLRenderingContextBase {
 }
 
 interface HTMLCanvasElement {
-	captureElementImage(element: Element): ElementImage;
-	updateElementGeometry(
+	captureElementImage?(element: Element): ElementImage;
+	updateElementGeometry?(
 		element: Element,
 		options: { canvasTransform: DOMMatrix }
 	): void;
-	requestPaint(): void;
-	onpaint: ((this: HTMLCanvasElement, ev: Event) => any) | null;
+	requestPaint?(): void;
+	onpaint?(this: HTMLCanvasElement, ev: Event): void;
 
-	getContext(contextId: "experimental-webgl", options?: WebGLContextAttributes): WebGLRenderingContext | null;
+	getContext?(contextId: "experimental-webgl", options?: WebGLContextAttributes): WebGLRenderingContext | null;
 }
 
 interface ElementImage {
