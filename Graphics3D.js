@@ -257,7 +257,7 @@ Graphics3D.prototype.setClearColor = function (red, green, blue, alpha) {
   	if (this.gl) this.gl.clearColor(red, green, blue, alpha);
 };
 
-Graphics3D.prototype.setRenderTarget = function (renderTarget) {
+Graphics3D.prototype.8 = function (renderTarget) {
   this.renderTarget = renderTarget;
 };
 

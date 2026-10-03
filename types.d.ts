@@ -20,11 +20,6 @@ interface HTMLCanvasElement {
 	
 }
 
-interface WebGLRenderingContext {
-	
-	texElementSubImage2D?: unknown;
-}
-
 interface WebGL2RenderingContext {
 	texElementSubImage2D?(
 		target: GLenum,
