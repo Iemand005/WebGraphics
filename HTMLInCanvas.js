@@ -36,18 +36,7 @@ c.width = innerWidth; c.height = innerHeight;
 const W = c.width, H = c.height;
 gl.viewport(0, 0, W, H);
 
-// ---------- helpers ----------
-function makeProgram(vs, fs) {
-	const p = gl.createProgram();
-	for (const [type, src] of [[gl.VERTEX_SHADER, vs], [gl.FRAGMENT_SHADER, fs]]) {
-		const sh = gl.createShader(type);
-		gl.shaderSource(sh, src); gl.compileShader(sh); gl.attachShader(p, sh);
-	}
-	gl.linkProgram(p);
-	return p;
-}
-const FRAG = `precision mediump float; uniform sampler2D s; varying vec2 v;
-							void main() { gl_FragColor = texture2D(s, v); }`;
+const FRAG = `precision mediump float; uniform sampler2D s; varying vec2 v; void main() { gl_FragColor = texture2D(s, v); }`;
 
 // ---------- background: one big triangle covering the screen ----------
 const bgProg = this.initShaderProgram(`
@@ -71,6 +60,8 @@ const cubeProg = this.initShaderProgram(`
 		v = t;
 		gl_Position = vec4(q.x * 2.4 / asp, q.y * 2.4, -1.105 * q.z - 2.105, -q.z);
 	}`, FRAG);
+
+	if (!cubeProg || !bgProg) return;
 
 const V = [], I = [];
 for (let f = 0; f < 6; f++) {
