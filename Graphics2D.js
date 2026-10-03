@@ -13,3 +13,13 @@ function Graphics2D(element) {
 
 Graphics2D.prototype = Object.create(GraphicsBase.prototype);
 Graphics2D.prototype.constructor = Graphics2D;
+
+/**
+ * @param {number} [width]
+ * @param {number} [height]
+ */
+Graphics2D.prototype.resize = function (width, height) {
+	const dpr = GraphicsBase.prototype.resize.call(this, width, height);
+	this.ctx.scale(dpr, dpr);
+	return dpr;
+};
