@@ -20,6 +20,23 @@ declare global {
 			yoffset: GLint,
 			element: Element | ElementImage
 		): void;
+
+		// Chrome 150-154
+		texElementImage2D(
+			target: GLenum,
+			internalformat: GLenum,   // e.g. gl.RGBA8
+			element: Element | ElementImage
+		): void;
+
+		// Chrome < 150
+		texElementImage2D(
+			target: GLenum,
+			level: GLint,
+			internalformat: GLenum,   // gl.RGBA
+			format: GLenum,           // gl.RGBA
+			type: GLenum,             // gl.UNSIGNED_BYTE
+			element: Element | ElementImage
+		): void;
 	}
 
 	interface HTMLCanvasElement {
