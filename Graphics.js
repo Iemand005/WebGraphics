@@ -52,4 +52,5 @@ GraphicsBase.prototype.resize = function(width, height) {
 	const dpr = window.devicePixelRatio || 1;
 	this.width = width * dpr;
 	this.height = height * dpr;
+	return dpr;
 };
