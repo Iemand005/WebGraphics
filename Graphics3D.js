@@ -34,6 +34,7 @@ function Graphics3D(canvas, webGL2) {
   this.blitBuffer = null;
   this.blitAttribLocation = -1;
   this.blitTextureLocation = null;
+  this.hasDepthBuffer = false;
 
   this.onrender = function () {};
 }
@@ -251,6 +252,8 @@ Vector3D.prototype.normalize = function () {
 }
 
 Graphics3D.prototype.clear = function () {
+  if (!this.gl) return;
+  var mask = this.gl?.COLOR_BUFFER_BIT;
 	if (this.gl) this.gl.clear(this.gl.COLOR_BUFFER_BIT);
 };
 /**
