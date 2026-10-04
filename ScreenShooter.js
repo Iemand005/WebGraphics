@@ -1,4 +1,4 @@
 
-class ScreenShooter extends HTMLInCanvas {
-	
+class ScreenShooter extends CanvasMaker {
+
 }
