@@ -1,8 +1,8 @@
 /**
  * @constructor
  * @class
- * @param {CanvasLike} [element] 
- * @param {CanvasContext} [context] 
+ * @param {CanvasLike} [element]
+ * @param {CanvasContext} [context]
  */
 function Graphics3D(element, context) {
   GraphicsBase.call(this, element, context);

@@ -1,8 +1,10 @@
 /**
+ * @constructor
  * @class
- * @param {HTMLCanvasElement | string} [element]
+ * @param {CanvasLike} [element]
+ * @param {CanvasContext} [context]
  */
-function GraphicsBase(element) {
+function GraphicsBase(element, context) {
 	/** @type {HTMLCanvasElement | null} */
 	var canvas = null;
 

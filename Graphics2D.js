@@ -2,7 +2,8 @@
 /**
  * @constructor
  * @class
- * @param {string | HTMLCanvasElement} [element] 
+ * @param {CanvasLike} [element]
+ * @param {CanvasContext} [context]
  */
 function Graphics2D(element) {
 	GraphicsBase.call(this, element);
