@@ -29,6 +29,9 @@ function Graphics3D(element, webGL2) {
   this.onrender = function () {};
 }
 
+Graphics3D.prototype = Object.create(GraphicsBase.prototype);
+Graphics3D.prototype.constructor = Graphics3D;
+
 
 var mat4 = {
   create: function () {
