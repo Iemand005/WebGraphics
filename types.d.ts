@@ -7,9 +7,9 @@ type CanvasLike = string | HTMLCanvasElement | OffscreenCanvas;
 
 type CanvasContext = "2d" | "webgl" | "webgl2";
 
-declare function GraphicsBase(element?: CanvasLike): GraphicsBase;
-declare function Graphics2D(element?: CanvasLike): Graphics2D;
-declare function Graphics3D(element?: CanvasLike): Graphics3D;
+declare function GraphicsBase(element?: CanvasLike, context: CanvasContext): GraphicsBase;
+declare function Graphics2D(element?: CanvasLike, context: CanvasContext): Graphics2D;
+declare function Graphics3D(element?: CanvasLike, context: CanvasContext): Graphics3D;
 
 
 

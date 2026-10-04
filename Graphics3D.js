@@ -5,7 +5,7 @@
  * @param {CanvasContext} [context] 
  */
 function Graphics3D(element, context) {
-  GraphicsBase.call(this, element);
+  GraphicsBase.call(this, element, context);
   
   this.gl = (context && this.canvas.getContext("webgl2")) || this.canvas.getContext("webgl") || this.canvas.getContext("experimental-webgl");
 
