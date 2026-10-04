@@ -26,7 +26,10 @@ class CanvasMaker extends Graphics3D {
 
 	/** @param {HTMLElement} element */
 	insertElement(element ) {
-
+		element.setAttribute("drawable", '');
+		
+		this.canvas.appendChild(element);
+		this.element = element;
 	}
 
 	putMainInCanvas() {
