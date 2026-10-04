@@ -1,0 +1,4 @@
+
+class ScreenShooter extends HTMLInCanvas {
+	
+}
