@@ -14,7 +14,7 @@ class ScreenShooter extends CanvasMaker {
 			if (!(this.ctx instanceof CanvasRenderingContext2D)) return;
 			this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-			const transform =this. ctx.drawElementImage(element, 0, 0);
+			const transform = this.ctx.drawElementImage(element, 0, 0);
 			element.style.transform = transform.toString();
 
 			this.ctx.strokeStyle = 'red';
