@@ -23,8 +23,8 @@ function GraphicsBase(element, context) {
 
 	this.canvas.onresize = function() { self.resize(); };
 
-	/** @type {CanvasRenderingContext2D | null} */
-	this.ctx = null;
+	/** @type {RenderingContext | null} */
+	this.ctx = context ? canvas.getContext(context) : null;
 }
 
 Object.defineProperty(GraphicsBase.prototype, "width", {
