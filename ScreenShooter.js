@@ -9,6 +9,7 @@ class ScreenShooter extends CanvasMaker {
 	screenshotElement(element) {
 		const parent = element.parentElement;
 		this.insertElement(element);
+		document.body.appendChild(this.canvas)
 		this.canvas.onpaint = () => {
 			if (!(this.ctx instanceof CanvasRenderingContext2D)) return;
 			this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
