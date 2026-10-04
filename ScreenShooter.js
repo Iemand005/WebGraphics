@@ -6,7 +6,7 @@ class ScreenShooter extends CanvasMaker {
 	}
 
 	/**
-	 * @param {HTMLElement} element
+	 * @param {Element} element
 	 * @param {{ debug?: boolean }} [opts]
 	 */
 	async screenshotElement(element, { debug = false } = {}) {
@@ -64,7 +64,7 @@ class ScreenShooter extends CanvasMaker {
 			}
 
 			element.setAttribute("drawable", "");
-			Object.assign(element.style, {
+			if (element instanceof HTMLElement) Object.assign(element.style, {
 				boxSizing: "border-box",
 				width: cssW + "px", height: cssH + "px",
 				minWidth: cssW + "px", maxWidth: cssW + "px",
