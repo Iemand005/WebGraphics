@@ -74,7 +74,7 @@ GraphicsBase.prototype.downloadImage = function(data, filename) {
 
 
 /**
- * @param {"png" | "jpg" | "webp"} [type]  'png' | 'jpeg' | 'jpg' | 'webp' or a full mime type
+ * @param {"png" | "jpg" | "webp"} [type]
  * @param {number} [quality]  0 to 1, used by jpeg and webp only
  */
 GraphicsBase.prototype.getDataUrl = function(type = 'png', quality = 1.0) {
