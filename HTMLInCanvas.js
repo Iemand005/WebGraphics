@@ -12,7 +12,8 @@ class CanvasMaker extends Graphics3D {
 
 	/** @param {CanvasLike} [element] */
 	constructor(element) {
-		super(element || document.createElement("canvas"), true);
+		if (!element) element = document.createElement("canvas");
+		super(element, true);
 		this.canvas.setAttribute("layoutsubtree", '');
 	}
 	
