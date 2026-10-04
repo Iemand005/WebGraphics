@@ -75,7 +75,7 @@ GraphicsBase.prototype.getDataUrl = function() {
 }
 
 /**
- * @param {string} filename
+ * @param {string} [filename]
  */
 GraphicsBase.prototype.downloadCanvas = function(filename) {
 	this.downloadImage(this.getDataUrl(), filename);
