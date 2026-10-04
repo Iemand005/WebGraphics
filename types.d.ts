@@ -3,9 +3,11 @@ interface GraphicsBase {}
 interface Graphics2D extends GraphicsBase {}
 interface Graphics3D extends GraphicsBase {}
 
-declare function GraphicsBase(element?: string | HTMLCanvasElement): GraphicsBase;
-declare function Graphics2D(element?: string | HTMLCanvasElement): Graphics2D;
-declare function Graphics3D(element?: string | HTMLCanvasElement): Graphics3D;
+type CanvasLike = string | HTMLCanvasElement | OffscreenCanvas;
+
+declare function GraphicsBase(element?: CanvasLike): GraphicsBase;
+declare function Graphics2D(element?: CanvasLike): Graphics2D;
+declare function Graphics3D(element?: CanvasLike): Graphics3D;
 
 
 
