@@ -54,3 +54,20 @@ GraphicsBase.prototype.resize = function(width, height) {
 	this.height = height * dpr;
 	return dpr;
 };
+
+GraphicsBase.prototype.downloadImage = function(data, filename = 'untitled.jpeg') {
+	var a = document.createElement('a');
+	a.href = data;
+	a.download = filename;
+	document.body.appendChild(a);
+	a.click();
+}
+
+
+GraphicsBase.prototype.getDataUrl = function(data, filename = 'untitled.jpeg') {
+	var a = document.createElement('a');
+	a.href = data;
+	a.download = filename;
+	document.body.appendChild(a);
+	a.click();
+}
