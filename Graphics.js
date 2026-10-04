@@ -20,6 +20,9 @@ function GraphicsBase(element) {
 	var self = this;
 
 	this.canvas.onresize = function() { self.resize(); };
+
+	/** @type {CanvasRenderingContext2D | null} */
+	this.ctx = null;
 }
 
 Object.defineProperty(GraphicsBase.prototype, "width", {
