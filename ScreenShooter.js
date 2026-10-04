@@ -30,6 +30,22 @@ class ScreenShooter extends CanvasMaker {
 		const style = element.getAttribute("style");
 		const drawable = element.hasAttribute("drawable");
 
+		const waitPaint = () => new Promise(resolve => {
+			let done = false;
+
+			const finish = () => {
+				if (done) return;
+				done = true;
+				clearTimeout(timeout);
+				resolve();
+			};
+
+			const timeout = setTimeout(finish, 1000);
+
+			mount.addEventListener("paint", finish, { once: true });
+			mount.requestPaint();
+		});
+
 		try {
 			element.setAttribute("drawable", "");
 
@@ -48,21 +64,11 @@ class ScreenShooter extends CanvasMaker {
 			}
 
 			await document.fonts.ready;
+
 			await new Promise(requestAnimationFrame);
 			await new Promise(requestAnimationFrame);
 
-			if (typeof mount.requestPaint === "function") {
-				await new Promise(resolve => {
-					const timeout = setTimeout(resolve, 300);
-					mount.addEventListener("paint", () => {
-						clearTimeout(timeout);
-						resolve();
-					}, { once: true });
-					mount.requestPaint();
-				});
-			}
-
-			// Final move. Nothing async after this.
+			// Move into the canvas.
 			if (typeof mount.moveBefore === "function") {
 				try {
 					mount.moveBefore(element, null);
@@ -73,7 +79,9 @@ class ScreenShooter extends CanvasMaker {
 				mount.appendChild(element);
 			}
 
-			// Do not await/yield between the move and drawElementImage.
+			// Moving invalidates the paint record, so force a new one.
+			await waitPaint();
+
 			mountCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
 			mountCtx.clearRect(0, 0, cssW, cssH);
 			mountCtx.drawElementImage(element, 0, 0, cssW, cssH);
