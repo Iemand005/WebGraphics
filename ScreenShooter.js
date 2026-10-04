@@ -22,29 +22,13 @@ class ScreenShooter extends CanvasMaker {
 
 		document.body.appendChild(mount);
 
-		const mountCtx = mount.getContext("2d");
+		const ctx = mount.getContext("2d");
 		const parent = element.parentNode;
 		const placeholder = document.createComment("");
 		parent.insertBefore(placeholder, element);
 
 		const style = element.getAttribute("style");
 		const drawable = element.hasAttribute("drawable");
-
-		const waitPaint = () => new Promise(resolve => {
-			let done = false;
-
-			const finish = () => {
-				if (done) return;
-				done = true;
-				clearTimeout(timeout);
-				resolve();
-			};
-
-			const timeout = setTimeout(finish, 1000);
-
-			mount.addEventListener("paint", finish, { once: true });
-			mount.requestPaint();
-		});
 
 		try {
 			element.setAttribute("drawable", "");
@@ -64,11 +48,9 @@ class ScreenShooter extends CanvasMaker {
 			}
 
 			await document.fonts.ready;
-
 			await new Promise(requestAnimationFrame);
 			await new Promise(requestAnimationFrame);
 
-			// Move into the canvas.
 			if (typeof mount.moveBefore === "function") {
 				try {
 					mount.moveBefore(element, null);
@@ -79,12 +61,15 @@ class ScreenShooter extends CanvasMaker {
 				mount.appendChild(element);
 			}
 
-			// Moving invalidates the paint record, so force a new one.
-			await waitPaint();
+			// Force layout, but don't request a paint.
+			mount.offsetWidth;
+			element.getBoundingClientRect();
 
-			mountCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
-			mountCtx.clearRect(0, 0, cssW, cssH);
-			mountCtx.drawElementImage(element, 0, 0, cssW, cssH);
+			await new Promise(requestAnimationFrame);
+
+			ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+			ctx.clearRect(0, 0, cssW, cssH);
+			ctx.drawElementImage(element, 0, 0, cssW, cssH);
 
 			this.ctx.setTransform(1, 0, 0, 1, 0, 0);
 			this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
