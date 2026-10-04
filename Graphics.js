@@ -25,7 +25,7 @@ function GraphicsBase(element, context) {
 
 	/** @type {RenderingContext | CanvasRenderingContext2D | WebGL2RenderingContext | WebGLRenderingContext | null} */
 	this.ctx = context ? canvas.getContext(context) : null;
-}
+}///
 
 Object.defineProperty(GraphicsBase.prototype, "width", {
 	get: function() { return this.canvas.width; },
