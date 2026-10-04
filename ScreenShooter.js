@@ -1,5 +1,10 @@
 
 class ScreenShooter extends CanvasMaker {
+
+	constructor() {
+		super(new OffscreenCanvas(100, 100));
+	}
+
 	/** @param {Element} element */
 	screenshotElement(element) {
 		const parent = element.parentElement;
