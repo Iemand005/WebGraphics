@@ -87,7 +87,7 @@ class ScreenShooter extends CanvasMaker {
 			this.ctx.clearRect(0, 0, outW, outH);
 			this.ctx.drawImage(mount, 0, 0);
 
-			await this.downloadCanvas();
+			this.downloadCanvas();
 		} finally {
 			parent.insertBefore(element, placeholder);
 			placeholder.remove();
