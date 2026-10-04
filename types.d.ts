@@ -19,7 +19,7 @@ interface HTMLCanvasElement {
 	
 }
 
-interface WebGLRenderingContextBase {
+interface TexElementImageMethods {
 	texElementSubImage2D?(
 		target: GLenum,
 		level: GLint,
@@ -28,27 +28,24 @@ interface WebGLRenderingContextBase {
 		element: Element | ElementImage
 	): void;
 
-	// 155+ with explicit size (the WICG issue mentions width/height params)
 	texElementSubImage2D?(
 		target: GLenum, level: GLint, xoffset: GLint, yoffset: GLint,
 		element: Element | ElementImage,
 		size?: { width: number; height: number }
 	): void;
 
-	// Chrome 150-154
 	texElementImage2D?(
 		target: GLenum,
-		internalformat: GLenum,   // e.g. gl.RGBA8
+		internalformat: GLenum,
 		element: Element | ElementImage
 	): void;
 
-	// Chrome < 150
 	texElementImage2D?(
 		target: GLenum,
 		level: GLint,
-		internalformat: GLenum,   // gl.RGBA
-		format: GLenum,           // gl.RGBA
-		type: GLenum,             // gl.UNSIGNED_BYTE
+		internalformat: GLenum,
+		format: GLenum,
+		type: GLenum,
 		element: Element | ElementImage
 	): void;
 
@@ -59,6 +56,9 @@ interface WebGLRenderingContextBase {
 		element: Element | ElementImage
 	): void;
 }
+
+interface WebGLRenderingContextBase extends TexElementImageMethods {}
+interface CanvasRenderingContext2D extends TexElementImageMethods {}
 
 interface HTMLCanvasElement {
 	captureElementImage?(element: Element): ElementImage;
