@@ -57,12 +57,12 @@ GraphicsBase.prototype.resize = function(width, height) {
 
 /**
  * @param {string} data
- * @param {string} filename
+ * @param {string} [filename]
  */
-GraphicsBase.prototype.downloadImage = function(data, filename = 'untitled.jpeg') {
+GraphicsBase.prototype.downloadImage = function(data, filename) {
 	var a = document.createElement('a');
 	a.href = data;
-	a.download = filename;
+	a.download = filename || 'untitled.jpeg';
 	document.body.appendChild(a);
 	a.click();
 }
@@ -71,5 +71,12 @@ GraphicsBase.prototype.downloadImage = function(data, filename = 'untitled.jpeg'
 GraphicsBase.prototype.getDataUrl = function() {
 	var dataURL = this.canvas.toDataURL("image/jpeg", 1.0);
 
-    this.downloadImage(dataURL, 'my-canvas.jpeg');
+    return dataURL;
+}
+
+/**
+ * @param {string} filename
+ */
+GraphicsBase.prototype.downloadCanvas = function(filename) {
+	this.downloadImage(this.getDataUrl(), filename);
 }
