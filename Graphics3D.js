@@ -2,7 +2,7 @@
  * @constructor
  * @class
  * @param {CanvasLike} [element] 
- * @param {boolean | string} [webGL2] 
+ * @param {boolean | CanvasContext} [webGL2] 
  */
 function Graphics3D(element, webGL2) {
   GraphicsBase.call(this, element);
