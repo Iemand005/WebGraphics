@@ -23,6 +23,6 @@ class ScreenShooter extends CanvasMaker {
 
 		this.canvas.requestPaint();
 		this.downloadCanvas();
-		parent?.appendChild(element);
+		// parent?.appendChild(element);
 	}
 }
