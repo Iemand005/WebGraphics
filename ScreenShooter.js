@@ -11,26 +11,52 @@ class ScreenShooter extends CanvasMaker {
 		const cssW = Math.max(1, Math.ceil(rect.width));
 		const cssH = Math.max(1, Math.ceil(rect.height));
 		const dpr = this.resize(cssW, cssH);
+		const outW = this.canvas.width;
+		const outH = this.canvas.height;
 
 		const mount = document.createElement("canvas");
 		mount.setAttribute("layoutsubtree", "");
-		mount.width = cssW * dpr;
-		mount.height = cssH * dpr;
+		mount.width = outW;
+		mount.height = outH;
 		mount.style.cssText =
 			`position:fixed;top:0;left:0;width:${cssW}px;height:${cssH}px;` +
 			`z-index:-2147483647;pointer-events:none`;
 
 		document.body.appendChild(mount);
 
-		const ctx = mount.getContext("2d");
+		const mountCtx = mount.getContext("2d");
 		const parent = element.parentNode;
-		const placeholder = document.createComment("");
+		const placeholder = document.createComment("screenshot-placeholder");
 		parent.insertBefore(placeholder, element);
 
-		const style = element.getAttribute("style");
-		const drawable = element.hasAttribute("drawable");
+		const savedStyle = element.getAttribute("style");
+		const hadDrawable = element.hasAttribute("drawable");
+
+		const move = (to, ref) => {
+			if (typeof to.moveBefore === "function") {
+				try {
+					to.moveBefore(element, ref);
+					return true;
+				} catch {}
+			}
+
+			to.insertBefore(element, ref);
+			return false;
+		};
+
+		const frame = () =>
+			new Promise(resolve => {
+				requestAnimationFrame(() => {
+					setTimeout(resolve, 50);
+				});
+			});
 
 		try {
+			const preserved = move(mount, null);
+
+			if (debug)
+				console.log("moveBefore preserved:", preserved);
+
 			element.setAttribute("drawable", "");
 
 			if (element instanceof HTMLElement) {
@@ -48,31 +74,17 @@ class ScreenShooter extends CanvasMaker {
 			}
 
 			await document.fonts.ready;
-			await new Promise(requestAnimationFrame);
-			await new Promise(requestAnimationFrame);
+			await frame();
+			await frame();
 
-			if (typeof mount.moveBefore === "function") {
-				try {
-					mount.moveBefore(element, null);
-				} catch {
-					mount.appendChild(element);
-				}
-			} else {
-				mount.appendChild(element);
-			}
+			if (element.parentNode !== mount)
+				throw new Error("Element moved out of screenshot canvas");
 
-			// Force layout, but don't request a paint.
-			mount.offsetWidth;
-			element.getBoundingClientRect();
-
-			await new Promise(requestAnimationFrame);
-
-			ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-			ctx.clearRect(0, 0, cssW, cssH);
-			ctx.drawElementImage(element, 0, 0, cssW, cssH);
+			mountCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+			mountCtx.drawElementImage(element, 0, 0, cssW, cssH);
 
 			this.ctx.setTransform(1, 0, 0, 1, 0, 0);
-			this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+			this.ctx.clearRect(0, 0, outW, outH);
 			this.ctx.drawImage(mount, 0, 0);
 
 			await this.downloadCanvas();
@@ -80,12 +92,12 @@ class ScreenShooter extends CanvasMaker {
 			parent.insertBefore(element, placeholder);
 			placeholder.remove();
 
-			if (style === null)
+			if (savedStyle === null)
 				element.removeAttribute("style");
 			else
-				element.setAttribute("style", style);
+				element.setAttribute("style", savedStyle);
 
-			if (!drawable)
+			if (!hadDrawable)
 				element.removeAttribute("drawable");
 
 			mount.remove();
