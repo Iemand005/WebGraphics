@@ -33,29 +33,20 @@ class ScreenShooter extends CanvasMaker {
 		const hadDrawable = element.hasAttribute("drawable");
 
 		const move = (to, ref) => {
-			if (typeof to.moveBefore === "function") {
-				try {
-					to.moveBefore(element, ref);
-					return true;
-				} catch {}
-			}
+			if (typeof to.moveBefore !== "function")
+				throw new Error("moveBefore() unavailable");
 
-			to.insertBefore(element, ref);
-			return false;
+			to.moveBefore(element, ref);
 		};
 
-		const frame = () =>
-			new Promise(resolve => {
-				requestAnimationFrame(() => {
-					setTimeout(resolve, 50);
-				});
+		const frame = () => new Promise(resolve => {
+			requestAnimationFrame(() => {
+				setTimeout(resolve, 50);
 			});
+		});
 
 		try {
-			const preserved = move(mount, null);
-
-			if (debug)
-				console.log("moveBefore preserved:", preserved);
+			move(mount, null);
 
 			element.setAttribute("drawable", "");
 
@@ -77,9 +68,6 @@ class ScreenShooter extends CanvasMaker {
 			await frame();
 			await frame();
 
-			if (element.parentNode !== mount)
-				throw new Error("Element moved out of screenshot canvas");
-
 			mountCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
 			mountCtx.drawElementImage(element, 0, 0, cssW, cssH);
 
@@ -89,7 +77,7 @@ class ScreenShooter extends CanvasMaker {
 
 			this.downloadCanvas();
 		} finally {
-			parent.insertBefore(element, placeholder);
+			move(parent, placeholder);
 			placeholder.remove();
 
 			if (savedStyle === null)
