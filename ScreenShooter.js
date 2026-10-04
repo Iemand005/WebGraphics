@@ -1,18 +1,11 @@
-
 class ScreenShooter extends CanvasMaker {
-
 	constructor() {
 		super(new OffscreenCanvas(1000, 1000), "2d");
 	}
 
-	/**
-	 * @param {Element} element
-	 * @param {{ debug?: boolean }} [opts]
-	 */
 	async screenshotElement(element, { debug = false } = {}) {
-		if (typeof CanvasRenderingContext2D.prototype.drawElementImage !== "function") {
-			throw new Error("html-in-canvas unavailable (Chrome 148+, chrome://flags/#canvas-draw-element)");
-		}
+		if (typeof CanvasRenderingContext2D.prototype.drawElementImage !== "function")
+			throw new Error("html-in-canvas unavailable");
 
 		const rect = element.getBoundingClientRect();
 		const cssW = Math.max(1, Math.ceil(rect.width));
@@ -25,81 +18,97 @@ class ScreenShooter extends CanvasMaker {
 		mount.setAttribute("layoutsubtree", "");
 		mount.width = outW;
 		mount.height = outH;
-		mount.style.cssText = `position:fixed;top:0;left:0;width:${cssW}px;height:${cssH}px;z-index:-2147483647;pointer-events:none`;
-		document.body.appendChild(mount); // must be connected BEFORE moveBefore
+		mount.style.cssText =
+			`position:fixed;top:0;left:0;width:${cssW}px;height:${cssH}px;` +
+			`z-index:-2147483647;pointer-events:none`;
+		document.body.appendChild(mount);
 
 		const parent = element.parentNode;
-		const placeholder = document.createComment("screenshot-placeholder");
+		const placeholder = document.createComment("");
 		parent.insertBefore(placeholder, element);
 
-		const savedStyle = element.getAttribute("style");
-		const hadDrawable = element.hasAttribute("drawable");
-		const iframes = [...element.querySelectorAll("iframe")];
-
-		if (debug) for (const f of iframes) { try { f.contentWindow.__ssAlive = true; } catch {} }
-
-		/** Moves without reload when possible. Returns true if state was preserved. */
-		const move = (to, ref) => {
-			if (typeof to.moveBefore === "function") {
-				try { to.moveBefore(element, ref); return true; }
-				catch (err) { console.warn("moveBefore failed, falling back to insertBefore:", err); }
-			}
-			to.insertBefore(element, ref);
-			return false;
-		};
+		const style = element.getAttribute("style");
+		const drawable = element.hasAttribute("drawable");
 
 		try {
-			const preserved = move(mount, null);
-			const reloadWaits = preserved ? [] : iframes.map(f => new Promise(res => {
-				f.addEventListener("load", res, { once: true });
-				setTimeout(res, 5000);
-			}));
+			// moveBefore preserves iframe state; appendChild is the fallback.
+			let preserved = false;
 
-			if (debug) {
-				console.log("moveBefore preserved:", preserved);
-				for (const f of iframes) {
-					try { console.log("iframe survived:", f.contentWindow?.__ssAlive === true); }
-					catch { console.log("iframe is cross-origin, can't verify"); }
-				}
+			if (typeof mount.moveBefore === "function") {
+				try {
+					mount.moveBefore(element, null);
+					preserved = true;
+				} catch {}
 			}
 
-			element.setAttribute("drawable", "");
-			if (element instanceof HTMLElement) Object.assign(element.style, {
-				boxSizing: "border-box",
-				width: cssW + "px", height: cssH + "px",
-				minWidth: cssW + "px", maxWidth: cssW + "px",
-				minHeight: cssH + "px", maxHeight: cssH + "px",
-				margin: "0", flex: "none",
-			});
+			if (element.parentNode !== mount)
+				mount.appendChild(element);
 
-			const frame = () => new Promise(r => { requestAnimationFrame(r); setTimeout(r, 50); });
-			await Promise.all([...reloadWaits, document.fonts.ready]);
-			await frame();
-			await frame();
+			if (debug)
+				console.log("preserved:", preserved);
+
+			element.setAttribute("drawable", "");
+
+			if (element instanceof HTMLElement) {
+				Object.assign(element.style, {
+					boxSizing: "border-box",
+					width: `${cssW}px`,
+					height: `${cssH}px`,
+					minWidth: `${cssW}px`,
+					maxWidth: `${cssW}px`,
+					minHeight: `${cssH}px`,
+					maxHeight: `${cssH}px`,
+					margin: "0",
+					flex: "none"
+				});
+			}
+
+			await document.fonts.ready;
+
+			await new Promise(requestAnimationFrame);
+			await new Promise(requestAnimationFrame);
+
 			await new Promise(resolve => {
-				const t = setTimeout(resolve, 300);
-				mount.addEventListener("paint", () => { clearTimeout(t); resolve(); }, { once: true });
+				const timeout = setTimeout(resolve, 300);
+				mount.addEventListener("paint", () => {
+					clearTimeout(timeout);
+					resolve();
+				}, { once: true });
 				mount.requestPaint();
 			});
 
+			// Do not call drawElementImage until the DOM relationship is stable.
+			if (element.parentNode !== mount)
+				throw new Error("Element is no longer inside screenshot canvas");
+
 			if (!(this.ctx instanceof CanvasRenderingContext2D)) return;
 
+			this.ctx.setTransform(1, 0, 0, 1, 0, 0);
+			this.ctx.clearRect(0, 0, outW, outH);
 			this.ctx.scale(dpr, dpr);
 			this.ctx.drawElementImage(element, 0, 0, cssW, cssH);
 
-			this.ctx.save();
 			this.ctx.setTransform(1, 0, 0, 1, 0, 0);
-			this.ctx.clearRect(0, 0, outW, outH);
 			this.ctx.drawImage(mount, 0, 0);
-			this.ctx.restore();
 
 			await this.downloadCanvas();
 		} finally {
-			move(parent, placeholder);
+			if (element.parentNode === mount) {
+				parent.insertBefore(element, placeholder);
+			} else {
+				parent.insertBefore(element, placeholder);
+			}
+
 			placeholder.remove();
-			if (savedStyle === null) element.removeAttribute("style");
-			else element.setAttribute("style", savedStyle);
-			if (!hadDrawable) element.removeAttribute("drawable");
+
+			if (style === null)
+				element.removeAttribute("style");
+			else
+				element.setAttribute("style", style);
+
+			if (!drawable)
+				element.removeAttribute("drawable");
+
 			mount.remove();
 		}
 	}
