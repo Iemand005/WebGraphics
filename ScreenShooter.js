@@ -19,10 +19,10 @@ class ScreenShooter extends CanvasMaker {
 		mount.style.cssText =
 			`position:fixed;top:0;left:0;width:${cssW}px;height:${cssH}px;` +
 			`z-index:-2147483647;pointer-events:none`;
+
 		document.body.appendChild(mount);
 
 		const mountCtx = mount.getContext("2d");
-
 		const parent = element.parentNode;
 		const placeholder = document.createComment("");
 		parent.insertBefore(placeholder, element);
@@ -31,16 +31,6 @@ class ScreenShooter extends CanvasMaker {
 		const drawable = element.hasAttribute("drawable");
 
 		try {
-			if (typeof mount.moveBefore === "function") {
-				try {
-					mount.moveBefore(element, null);
-				} catch {
-					mount.appendChild(element);
-				}
-			} else {
-				mount.appendChild(element);
-			}
-
 			element.setAttribute("drawable", "");
 
 			if (element instanceof HTMLElement) {
@@ -61,18 +51,29 @@ class ScreenShooter extends CanvasMaker {
 			await new Promise(requestAnimationFrame);
 			await new Promise(requestAnimationFrame);
 
-			await new Promise(resolve => {
-				const timeout = setTimeout(resolve, 300);
-				mount.addEventListener("paint", () => {
-					clearTimeout(timeout);
-					resolve();
-				}, { once: true });
-				mount.requestPaint();
-			});
+			if (typeof mount.requestPaint === "function") {
+				await new Promise(resolve => {
+					const timeout = setTimeout(resolve, 300);
+					mount.addEventListener("paint", () => {
+						clearTimeout(timeout);
+						resolve();
+					}, { once: true });
+					mount.requestPaint();
+				});
+			}
 
-			if (element.parentNode !== mount)
-				throw new Error("Element is no longer inside mount canvas");
+			// Final move. Nothing async after this.
+			if (typeof mount.moveBefore === "function") {
+				try {
+					mount.moveBefore(element, null);
+				} catch {
+					mount.appendChild(element);
+				}
+			} else {
+				mount.appendChild(element);
+			}
 
+			// Do not await/yield between the move and drawElementImage.
 			mountCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
 			mountCtx.clearRect(0, 0, cssW, cssH);
 			mountCtx.drawElementImage(element, 0, 0, cssW, cssH);
