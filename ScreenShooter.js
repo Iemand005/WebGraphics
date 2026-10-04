@@ -22,6 +22,7 @@ class ScreenShooter extends CanvasMaker {
 		const move = (newParent, ref = null) => {
 			if (typeof newParent.moveBefore === "function") {
 				newParent.moveBefore(element, ref); // no reload
+				console.log("Performing move before!")
 				return false; // didn't reload
 			}
 			newParent.insertBefore(element, ref);
