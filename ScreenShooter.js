@@ -82,9 +82,10 @@ class ScreenShooter extends CanvasMaker {
 				mount.requestPaint();
 			});
 
-			const mctx = mount.getContext("2d");
-			mctx.scale(dpr, dpr);
-			mctx.drawElementImage(element, 0, 0, cssW, cssH);
+			if (!(this.ctx instanceof CanvasRenderingContext2D)) return;
+
+			this.ctx.scale(dpr, dpr);
+			this.ctx.drawElementImage(element, 0, 0, cssW, cssH);
 
 			this.ctx.save();
 			this.ctx.setTransform(1, 0, 0, 1, 0, 0);
