@@ -7,6 +7,8 @@ class ScreenShooter extends CanvasMaker {
 
 	/** @param {HTMLElement} element */
 	screenshotElement(element) {
+		this.width = element.clientWidth;
+		this.height = element.clientHeight;
 		const parent = element.parentElement;
 		this.insertElement(element);
 		document.body.appendChild(this.canvas);
@@ -22,10 +24,10 @@ class ScreenShooter extends CanvasMaker {
 			if (downloaded) return;
 			downloaded = true;
 			this.downloadCanvas();
+			parent?.appendChild(element);
 		};
 
 		this.canvas.requestPaint();
 		// this.downloadCanvas();
-		// parent?.appendChild(element);
 	}
 }
