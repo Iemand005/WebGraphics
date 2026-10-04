@@ -8,12 +8,14 @@ class ScreenShooter extends CanvasMaker {
 	/** @param {HTMLElement} element */
 	screenshotElement(element) {
 		const bounds = element.getBoundingClientRect();
-		this.resize(Math.ceil(bounds.width), Math.ceil(bounds.height));
+		const cssW = Math.ceil(bounds.width);
+		const cssH = Math.ceil(bounds.height);
+		this.resize(cssW, cssH);
 		const parent = element.parentElement;
 		this.insertElement(element);
 		document.body.appendChild(this.canvas);
-		this.canvas.style.width = this.width + "px";
-		this.canvas.style.height = this.height + "px";
+		this.canvas.style.width = cssW + "px";
+		this.canvas.style.height = cssH + "px";
 		var downloaded = false;
 		this.canvas.onpaint = () => {
 			if (!(this.ctx instanceof CanvasRenderingContext2D)) return;
