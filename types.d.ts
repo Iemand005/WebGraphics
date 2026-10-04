@@ -5,6 +5,8 @@ interface Graphics3D extends GraphicsBase {}
 
 type CanvasLike = string | HTMLCanvasElement | OffscreenCanvas;
 
+type CanvasContext = "2d" | "webgl" | "webgl2";
+
 declare function GraphicsBase(element?: CanvasLike): GraphicsBase;
 declare function Graphics2D(element?: CanvasLike): Graphics2D;
 declare function Graphics3D(element?: CanvasLike): Graphics3D;
