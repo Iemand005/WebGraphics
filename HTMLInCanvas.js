@@ -7,7 +7,7 @@ class CanvasMaker extends Graphics3D {
 	/** @type {Element | null} */
 	element = null;
 
-	/** @type {((this: CanvasMaker)=>void) | null} */
+	/** @type {((this: CanvasMaker, t: number)=>void) | null} */
 	onDraw = null;
 
 	/** @param {CanvasLike} [element] */
@@ -149,7 +149,7 @@ class CanvasMaker extends Graphics3D {
 
 	/** @param {number} t */
 	draw(t) {
-		if (this.onDraw) this.onDraw();
+		if (this.onDraw) this.onDraw(t);
 	}
 }
 
