@@ -2,7 +2,7 @@
 class ScreenShooter extends CanvasMaker {
 
 	constructor() {
-		super(new OffscreenCanvas(100, 100), "2d");
+		super(new OffscreenCanvas(1000, 1000), "2d");
 	}
 
 	/** @param {HTMLElement} element */
@@ -23,7 +23,7 @@ class ScreenShooter extends CanvasMaker {
 		};
 
 		this.canvas.requestPaint();
-		this.downloadCanvas();
+		// this.downloadCanvas();
 		// parent?.appendChild(element);
 	}
 }
