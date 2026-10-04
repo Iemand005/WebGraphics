@@ -11,17 +11,17 @@ class ScreenShooter extends CanvasMaker {
 		const cssW = Math.max(1, Math.ceil(rect.width));
 		const cssH = Math.max(1, Math.ceil(rect.height));
 		const dpr = this.resize(cssW, cssH);
-		const outW = this.canvas.width;
-		const outH = this.canvas.height;
 
 		const mount = document.createElement("canvas");
 		mount.setAttribute("layoutsubtree", "");
-		mount.width = outW;
-		mount.height = outH;
+		mount.width = cssW * dpr;
+		mount.height = cssH * dpr;
 		mount.style.cssText =
 			`position:fixed;top:0;left:0;width:${cssW}px;height:${cssH}px;` +
 			`z-index:-2147483647;pointer-events:none`;
 		document.body.appendChild(mount);
+
+		const mountCtx = mount.getContext("2d");
 
 		const parent = element.parentNode;
 		const placeholder = document.createComment("");
@@ -31,21 +31,15 @@ class ScreenShooter extends CanvasMaker {
 		const drawable = element.hasAttribute("drawable");
 
 		try {
-			// moveBefore preserves iframe state; appendChild is the fallback.
-			let preserved = false;
-
 			if (typeof mount.moveBefore === "function") {
 				try {
 					mount.moveBefore(element, null);
-					preserved = true;
-				} catch {}
-			}
-
-			if (element.parentNode !== mount)
+				} catch {
+					mount.appendChild(element);
+				}
+			} else {
 				mount.appendChild(element);
-
-			if (debug)
-				console.log("preserved:", preserved);
+			}
 
 			element.setAttribute("drawable", "");
 
@@ -64,7 +58,6 @@ class ScreenShooter extends CanvasMaker {
 			}
 
 			await document.fonts.ready;
-
 			await new Promise(requestAnimationFrame);
 			await new Promise(requestAnimationFrame);
 
@@ -77,28 +70,20 @@ class ScreenShooter extends CanvasMaker {
 				mount.requestPaint();
 			});
 
-			// Do not call drawElementImage until the DOM relationship is stable.
 			if (element.parentNode !== mount)
-				throw new Error("Element is no longer inside screenshot canvas");
+				throw new Error("Element is no longer inside mount canvas");
 
-			if (!(this.ctx instanceof CanvasRenderingContext2D)) return;
-
-			this.ctx.setTransform(1, 0, 0, 1, 0, 0);
-			this.ctx.clearRect(0, 0, outW, outH);
-			this.ctx.scale(dpr, dpr);
-			this.ctx.drawElementImage(element, 0, 0, cssW, cssH);
+			mountCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+			mountCtx.clearRect(0, 0, cssW, cssH);
+			mountCtx.drawElementImage(element, 0, 0, cssW, cssH);
 
 			this.ctx.setTransform(1, 0, 0, 1, 0, 0);
+			this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 			this.ctx.drawImage(mount, 0, 0);
 
 			await this.downloadCanvas();
 		} finally {
-			if (element.parentNode === mount) {
-				parent.insertBefore(element, placeholder);
-			} else {
-				parent.insertBefore(element, placeholder);
-			}
-
+			parent.insertBefore(element, placeholder);
 			placeholder.remove();
 
 			if (style === null)
