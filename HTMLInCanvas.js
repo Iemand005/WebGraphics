@@ -12,16 +12,21 @@ class CanvasMaker extends Graphics3D {
 
 	constructor() {
 		super(document.createElement("canvas"), true);
+		this.canvas.setAttribute("layoutsubtree", '');
 	}
-
+	
 	/** @param {HTMLElement} element */
 	createCanvas(element) {
-
-		this.canvas.setAttribute("layoutsubtree", '');
 		element.setAttribute("drawable", '');
+
 		this.canvas.appendChild(element);
 		this.element = element;
 		document.body.appendChild(this.canvas);
+	}
+
+	/** @param {HTMLElement} element */
+	insertElement(element ) {
+
 	}
 
 	putMainInCanvas() {
