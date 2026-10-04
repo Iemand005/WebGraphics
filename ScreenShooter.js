@@ -25,9 +25,7 @@ class ScreenShooter extends CanvasMaker {
 		mount.setAttribute("layoutsubtree", "");
 		mount.width = outW;
 		mount.height = outH;
-		mount.style.cssText =
-			`position:fixed;top:0;left:0;width:${cssW}px;height:${cssH}px;` +
-			`z-index:-2147483647;pointer-events:none`;
+		mount.style.cssText = `position:fixed;top:0;left:0;width:${cssW}px;height:${cssH}px;z-index:-2147483647;pointer-events:none`;
 		document.body.appendChild(mount); // must be connected BEFORE moveBefore
 
 		const parent = element.parentNode;
@@ -96,7 +94,6 @@ class ScreenShooter extends CanvasMaker {
 
 			await this.downloadCanvas();
 		} finally {
-			// 9. Slide it back to the exact spot and undo every change.
 			move(parent, placeholder);
 			placeholder.remove();
 			if (savedStyle === null) element.removeAttribute("style");
