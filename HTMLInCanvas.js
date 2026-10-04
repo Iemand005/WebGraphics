@@ -146,6 +146,11 @@ class CanvasMaker extends Graphics3D {
 			requestAnimationFrame(draw);
 		})(0);
 	}
+
+	/** @param {number} t */
+	draw(t) {
+		if (this.onDraw) this.onDraw();
+	}
 }
 
 const canvasMaker = new CanvasMaker;
