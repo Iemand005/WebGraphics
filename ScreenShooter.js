@@ -1,7 +1,7 @@
 
 class ScreenShooter extends CanvasMaker {
-	/** @param {HTMLElement} element */
+	/** @param {Element} element */
 	screenshotElement(element) {
-
+		this.insertElement(element);
 	}
 }

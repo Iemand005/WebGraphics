@@ -4,7 +4,7 @@ class CanvasMaker extends Graphics3D {
 
 	// canvas ;;
 
-	/** @type {HTMLElement | null} */
+	/** @type {Element | null} */
 	element = null;
 
 	/** @type {((this: CanvasMaker)=>void) | null} */
@@ -24,10 +24,10 @@ class CanvasMaker extends Graphics3D {
 		document.body.appendChild(this.canvas);
 	}
 
-	/** @param {HTMLElement} element */
+	/** @param {Element} element */
 	insertElement(element ) {
 		element.setAttribute("drawable", '');
-		
+
 		this.canvas.appendChild(element);
 		this.element = element;
 	}
