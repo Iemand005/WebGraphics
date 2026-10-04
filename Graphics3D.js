@@ -7,7 +7,12 @@
 function Graphics3D(element, context) {
   GraphicsBase.call(this, element, context);
   
-  this.gl = (context && this.canvas.getContext("webgl2")) || this.canvas.getContext("webgl") || this.canvas.getContext("experimental-webgl");
+
+  // this.gl = (context && this.canvas.getContext("webgl2")) || this.canvas.getContext("webgl") || this.canvas.getContext("experimental-webgl");
+
+  // if (context === "webgl2")
+  if (context === "2d") return;
+  this.gl = (context === "webgl2" && this.canvas.getContext("webgl2")) || this.canvas.getContext("webgl") || this.canvas.getContext("experimental-webgl");
 
   if (!this.gl) throw new Error("WebGL not supported!");
 
