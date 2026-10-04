@@ -16,8 +16,8 @@ class ScreenShooter extends CanvasMaker {
 		const nextSibling = element.nextSibling;
 
 		document.body.appendChild(this.canvas);
-		this.canvas.style.width = cssW * dpr + "px";
-		this.canvas.style.height = cssH * dpr + "px";
+		this.canvas.style.width = cssW + "px";
+		this.canvas.style.height = cssH + "px";
 
 		const move = (newParent, ref = null) => {
 			if (typeof newParent.moveBefore === "function") {
