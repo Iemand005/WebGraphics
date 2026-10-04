@@ -1,7 +1,7 @@
 /**
  * @constructor
  * @class
- * @param {string | HTMLCanvasElement} [element] 
+ * @param {CanvasLike} [element] 
  * @param {boolean} [webGL2] 
  */
 function Graphics3D(element, webGL2) {
