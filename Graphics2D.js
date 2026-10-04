@@ -5,8 +5,8 @@
  * @param {CanvasLike} [element]
  * @param {CanvasContext} [context]
  */
-function Graphics2D(element) {
-	GraphicsBase.call(this, element);
+function Graphics2D(element, context) {
+	GraphicsBase.call(this, element, context);
 	const ctx = this.canvas.getContext("2d");
 	if (!ctx) throw new Error("No 2d graphics??");
 	this.ctx = ctx;
