@@ -2,7 +2,7 @@
 class ScreenShooter extends CanvasMaker {
 
 	constructor() {
-		super(new OffscreenCanvas(100, 100));
+		super();
 	}
 
 	/** @param {Element} element */
