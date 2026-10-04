@@ -23,7 +23,7 @@ function GraphicsBase(element, context) {
 
 	this.canvas.onresize = function() { self.resize(); };
 
-	/** @type {RenderingContext | null} */
+	/** @type {RenderingContext | CanvasRenderingContext2D | WebGL2RenderingContext | WebGLRenderingContext | null} */
 	this.ctx = context ? canvas.getContext(context) : null;
 }
 
