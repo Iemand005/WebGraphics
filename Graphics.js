@@ -1,42 +1,46 @@
 /**
+ * @constructor
  * @class
- * @param {HTMLCanvasElement | string} [element]
+ * @param {CanvasLike} [element]
+ * @param {CanvasContext} [context]
  */
-function GraphicsBase(element) {
-  /** @type {HTMLCanvasElement | null} */
-  this.canvas = null;
+function GraphicsBase(element, context) {
+	/** @type {HTMLCanvasElement | null} */
+	var canvas = null;
 
-  if (element instanceof HTMLCanvasElement) this.canvas = element;
-  else if (typeof element === "string") {
-    var canvas = document.getElementById(element);
-    if (canvas instanceof HTMLCanvasElement) this.canvas = canvas;
-  } else this.canvas = document.createElement("canvas");
+	if (element instanceof HTMLCanvasElement) canvas = element;
+	else if (typeof element === "string") {
+		var c = document.getElementById(element);
+		if (c instanceof HTMLCanvasElement) canvas = c;
+	} else canvas = document.createElement("canvas");
 
-  if (!this.canvas) return;
+	if (!canvas) throw new Error("Object does not resolve to a canvas!");
 
-  var self = this;
+	/** @type {HTMLCanvasElement} */
+	this.canvas = canvas;
 
-  this.canvas.onresize = function() {
-    if (!self.canvas) return;
-    var bounds = self.canvas.getBoundingClientRect();
-    self.resize(bounds.width, bounds.height);
-  };
-}
+	var self = this;
+
+	this.canvas.onresize = function() { self.resize(); };
+
+	/** @type {RenderingContext | CanvasRenderingContext2D | WebGL2RenderingContext | WebGLRenderingContext | null} */
+	this.ctx = context ? canvas.getContext(context) : null;
+}///
 
 Object.defineProperty(GraphicsBase.prototype, "width", {
-  get: function() { return this.canvas ? this.canvas.width : 0; },
-  set: function(width) {
-    if (typeof width === "number" && this.canvas)
-      this.canvas.width = width;
-  }
+	get: function() { return this.canvas.width; },
+	set: function(width) {
+		if (typeof width === "number")
+			this.canvas.width = width;
+	}
 });
 
 Object.defineProperty(GraphicsBase.prototype, "height", {
-  get: function() { return this.canvas ? this.canvas.height : 0; },
-  set: function(height) {
-    if (typeof height === "number" && this.canvas)
-      this.canvas.height = height;
-  }
+	get: function() { return this.canvas.height; },
+	set: function(height) {
+		if (typeof height === "number")
+			this.canvas.height = height;
+	}
 });
 
 /**
@@ -44,24 +48,42 @@ Object.defineProperty(GraphicsBase.prototype, "height", {
  * @param {number} [height]
  */
 GraphicsBase.prototype.resize = function(width, height) {
-  if (!this.canvas) return;
+	if (typeof width === "undefined" || typeof height === "undefined") {
+		const rect = this.canvas.getBoundingClientRect();
+		width = rect.width;
+		height = rect.height;
+	}
 
-  if (typeof width === "undefined" || typeof height === "undefined") {
-    const rect = this.canvas.getBoundingClientRect();
-    width = rect.width;
-    height = rect.height;
-  }
-
-  const dpr = window.devicePixelRatio || 1;
-  this.width = width * dpr;
-  this.height = height * dpr;
+	const dpr = window.devicePixelRatio || 1;
+	this.width = width * dpr;
+	this.height = height * dpr;
+	return dpr;
 };
 
 /**
- * @deprecated
- * @param {string} type
+ * @param {string} data
+ * @param {string} [filename]
  */
-GraphicsBase.prototype.getContext = function(type) {
-  if (!this.canvas) return;
-  return this.canvas.getContext(type);
+GraphicsBase.prototype.downloadImage = function(data, filename) {
+	var a = document.createElement('a');
+	a.href = data;
+	a.download = filename || 'untitled.jpeg';
+	document.body.appendChild(a);
+	a.click();
+}
+
+
+/**
+ * @param {"png" | "jpeg" | "webp"} [type]  'png' | 'jpeg' | 'jpg' | 'webp' or a full mime type
+ * @param {number} [quality]  0 to 1, used by jpeg and webp only
+ */
+GraphicsBase.prototype.getDataUrl = function(type, quality) {
+	return this.canvas.toDataURL("image/" + (type || "png") , quality || 1);
 };
+
+/**
+ * @param {string} [filename]
+ */
+GraphicsBase.prototype.downloadCanvas = function(filename) {
+	this.downloadImage(this.getDataUrl(), filename);
+}

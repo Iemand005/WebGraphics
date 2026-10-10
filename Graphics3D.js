@@ -1,21 +1,20 @@
 /**
+ * @constructor
  * @class
- * @param {HTMLCanvasElement} canvas
+ * @param {CanvasLike} [element]
+ * @param {CanvasContext} [context]
  */
-function Graphics3D(canvas) {
-  /* @type {HTMLCanvasElement} */
-  this.canvas = canvas;
-  /** @type {WebGLRenderingContext | null} */
-  this.gl = canvas.getContext("webgl");
-  this.ie11 = false;
-  if (!this.gl) {
-    var gl = canvas.getContext("experimental-webgl");
-	// @ts-ignore
-	this.gl = gl;
-    if (this.gl) this.ie11 = true;
-  }
+function Graphics3D(element, context) {
+  GraphicsBase.call(this, element, context);
+  
 
-  if (!this.gl) throw new Error("WebGL Not supported!");
+  // this.gl = (context && this.canvas.getContext("webgl2")) || this.canvas.getContext("webgl") || this.canvas.getContext("experimental-webgl");
+
+  // if (context === "webgl2")
+  if (context === "2d") return;
+  this.gl = (context === "webgl2" && this.canvas.getContext("webgl2")) || this.canvas.getContext("webgl") || this.canvas.getContext("experimental-webgl");
+
+  if (!this.gl) throw new Error("WebGL not supported!");
 
   this.gl.clearColor(0, 0, 0, 0);
 
@@ -30,9 +29,13 @@ function Graphics3D(canvas) {
   this.blitBuffer = null;
   this.blitAttribLocation = -1;
   this.blitTextureLocation = null;
+  this.hasDepthBuffer = false;
 
   this.onrender = function () {};
 }
+
+Graphics3D.prototype = Object.create(GraphicsBase.prototype);
+Graphics3D.prototype.constructor = Graphics3D;
 
 
 var mat4 = {
@@ -218,9 +221,9 @@ var mat4 = {
 
 /**
  * 
- * @param {number | {x:number,y:number,z:number}} x 
- * @param {number} y 
- * @param {number} z 
+ * @param {number | {x:number,y:number,z:number}} [x] 
+ * @param {number} [y] 
+ * @param {number} [z] 
  */
 function Vector3D(x, y, z) {
     this.x = 0;
@@ -228,10 +231,10 @@ function Vector3D(x, y, z) {
     this.z = 0;
     if (typeof x === "number") {
         this.x = x;
-        if (y == null && z == null) 
+        if (y === undefined || z === undefined) 
             this.y = x, this.z = x;
         else this.y = y, this.z = z;
-    } else if (typeof x === "object" && x.x && x.y && x.z) {
+    } else if (typeof x == "object" && x.x && x.y && x.z) {
         this.x = x.x, this.y = x.y, this.z = x.z;
     }
 }
@@ -247,16 +250,18 @@ Vector3D.prototype.normalize = function () {
 }
 
 Graphics3D.prototype.clear = function () {
-	if (this.gl) this.gl.clear(this.gl.COLOR_BUFFER_BIT);
+  var mask = this.gl.COLOR_BUFFER_BIT;
+  if (this.hasDepthBuffer) mask |= this.gl.DEPTH_BUFFER_BIT;
+	this.gl.clear(mask);
 };
 /**
- * @param {number} r 
- * @param {number} g 
- * @param {number} b 
- * @param {number} a 
+ * @param {number} red 
+ * @param {number} green 
+ * @param {number} blue 
+ * @param {number} alpha 
  */
-Graphics3D.prototype.setClearColor = function (r, g, b, a) {
-  	if (this.gl) this.gl.clearColor(r, g, b, a);
+Graphics3D.prototype.setClearColor = function (red, green, blue, alpha) {
+  this.gl.clearColor(red, green, blue, alpha);
 };
 
 Graphics3D.prototype.setRenderTarget = function (renderTarget) {
@@ -264,7 +269,7 @@ Graphics3D.prototype.setRenderTarget = function (renderTarget) {
 };
 
 Graphics3D.prototype.initBlitResources = function () {
-	if (this.blitProgram || !this.gl) return;
+	if (this.blitProgram) return;
 
 	const gl = this.gl;
 	const vsSource =
@@ -324,7 +329,6 @@ Graphics3D.prototype.presentRenderTarget = function () {
  * @returns {WebGLShader | null}
  */
 Graphics3D.prototype.loadShader = function (type, source) {
-	if (!this.gl) return null;
   const shader = this.gl.createShader(type);
   if (!shader) return null;
   this.gl.shaderSource(shader, source);
@@ -344,9 +348,15 @@ Graphics3D.prototype.loadShader = function (type, source) {
   return shader;
 };
 
+/**
+ * @param {string} vsSource
+ * @param {string} fsSource
+ */
 Graphics3D.prototype.initShaderProgram = function (vsSource, fsSource) {
   const vertexShader = this.loadShader(this.gl.VERTEX_SHADER, vsSource);
   const fragmentShader = this.loadShader(this.gl.FRAGMENT_SHADER, fsSource);
+
+  if (!vertexShader || !fragmentShader) return;
 
   // Create the shader program
 
@@ -368,6 +378,10 @@ Graphics3D.prototype.initShaderProgram = function (vsSource, fsSource) {
   return shaderProgram;
 };
 
+/**
+ * @param {string} vsSource
+ * @param {string} fsSource
+ */
 Graphics3D.prototype.loadShaders = function (vsSource, fsSource) {
   const gl = this.gl;
   this.shaderProgram = this.initShaderProgram(vsSource, fsSource);
@@ -422,7 +436,6 @@ function Camera() {
  */
 Graphics3D.prototype.drawScene = function (programInfo, deltaTime, camera) {
   const gl = this.gl;
-  if (!gl) return;
 
   if (this.renderTarget) {
     gl.bindFramebuffer(gl.FRAMEBUFFER, this.renderTarget.framebuffer);
@@ -490,8 +503,8 @@ Graphics3D.prototype.drawScene = function (programInfo, deltaTime, camera) {
     const stride = 0; // how many bytes to get from one set of values to the next
     // 0 = use type and numComponents above
     const offset = 0; // how many bytes inside the buffer to start from
-    if (!this.buffers) return;
-    gl.bindBuffer(gl.ARRAY_BUFFER, this.buffers.position);
+
+	gl.bindBuffer(gl.ARRAY_BUFFER, this.buffers.position);
     gl.vertexAttribPointer(
       this.programInfo.attribLocations.vertexPosition,
       numComponents,
@@ -595,17 +608,8 @@ Graphics3D.prototype.startRendering = function() {
  * @param {number} height 
  */
 Graphics3D.prototype.resize = function (width, height) {
-	if (width === undefined) {
-		const bonding = this.canvas.getBoundingClientRect();
-		width = bonding.width;
-		height = bonding.height;
-	}
-	const dpr = window.devicePixelRatio || 1;
-	this.canvas.width = width * dpr;
-	this.canvas.height = height * dpr;
-	if (!this.gl) return;
-	this.gl.viewport(0, 0, this.canvas.width, this.canvas.height);
-	if (this.gl.scale) this.gl.scale(dpr, dpr);
-
-	// this.gl.setTransform(dpr, 0, 0, dpr, 0, 0);
+	const dpr = GraphicsBase.prototype.resize.call(this, width, height);
+	if (this.gl)
+		this.gl.viewport(0, 0, this.canvas.width, this.canvas.height);
+	return dpr;
 };
