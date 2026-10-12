@@ -5,33 +5,33 @@
  * @param {CanvasContext} [context]
  */
 function Graphics3D(canvas, context) {
-  GraphicsBase.call(this, canvas, context);
-  
+	GraphicsBase.call(this, canvas, context);
+	
 
-  // this.gl = (context && this.canvas.getContext("webgl2")) || this.canvas.getContext("webgl") || this.canvas.getContext("experimental-webgl");
+	// this.gl = (context && this.canvas.getContext("webgl2")) || this.canvas.getContext("webgl") || this.canvas.getContext("experimental-webgl");
 
-  // if (context === "webgl2")
-  if (context === "2d") return;
-  this.gl = (context === "webgl2" && this.canvas.getContext("webgl2")) || this.canvas.getContext("webgl") || this.canvas.getContext("experimental-webgl");
+	// if (context === "webgl2")
+	if (context === "2d") return;
+	this.gl = (context === "webgl2" && this.canvas.getContext("webgl2")) || this.canvas.getContext("webgl") || this.canvas.getContext("experimental-webgl");
 
-  if (!this.gl) throw new Error("WebGL not supported!");
+	if (!this.gl) throw new Error("WebGL not supported!");
 
-  this.gl.clearColor(0, 0, 0, 0);
+	this.gl.clearColor(0, 0, 0, 0);
 
-  this.buffers = {
-    position: [],
-    indices: [],
-    color: []
-  };
+	this.buffers = {
+		position: [],
+		indices: [],
+		color: []
+	};
 
-  this.renderTarget = null;
-  this.blitProgram = null;
-  this.blitBuffer = null;
-  this.blitAttribLocation = -1;
-  this.blitTextureLocation = null;
-  this.hasDepthBuffer = false;
+	this.renderTarget = null;
+	this.blitProgram = null;
+	this.blitBuffer = null;
+	this.blitAttribLocation = -1;
+	this.blitTextureLocation = null;
+	this.hasDepthBuffer = false;
 
-  this.onrender = function () {};
+	this.onrender = function () {};
 }
 
 Graphics3D.prototype = Object.create(GraphicsBase.prototype);
