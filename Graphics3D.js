@@ -7,10 +7,6 @@
 function Graphics3D(canvas, context) {
 	GraphicsBase.call(this, canvas, context);
 	
-
-	// this.gl = (context && this.canvas.getContext("webgl2")) || this.canvas.getContext("webgl") || this.canvas.getContext("experimental-webgl");
-
-	// if (context === "webgl2")
 	if (context === "2d") return;
 	this.gl = (context === "webgl2" && this.canvas.getContext("webgl2")) || this.canvas.getContext("webgl") || this.canvas.getContext("experimental-webgl");
 
