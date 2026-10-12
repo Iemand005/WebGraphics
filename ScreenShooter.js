@@ -32,7 +32,7 @@ class ScreenShooter extends CanvasMaker {
 		const savedStyle = element.getAttribute("style");
 		const hadDrawable = element.hasAttribute("drawable");
 
-		/** @param {HTMLElement} to @param {HTMLElement}r ef */
+		/** @param {HTMLElement} to @param {HTMLElement | null} ref */
 		const move = (to, ref) => {
 			if (typeof to.moveBefore !== "function")
 				throw new Error("moveBefore() unavailable");
