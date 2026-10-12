@@ -1,11 +1,11 @@
 /**
  * @constructor
  * @class
- * @param {CanvasLike} [element]
+ * @param {CanvasLike} [canvas]
  * @param {CanvasContext} [context]
  */
-function Graphics3D(element, context) {
-  GraphicsBase.call(this, element, context);
+function Graphics3D(canvas, context) {
+  GraphicsBase.call(this, canvas, context);
   
 
   // this.gl = (context && this.canvas.getContext("webgl2")) || this.canvas.getContext("webgl") || this.canvas.getContext("experimental-webgl");
