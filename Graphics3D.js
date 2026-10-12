@@ -33,6 +33,7 @@ function Graphics3D(canvas, context) {
 Graphics3D.prototype = Object.create(GraphicsBase.prototype);
 Graphics3D.prototype.constructor = Graphics3D;
 
+// #region Maths
 
 var mat4 = {
   create: function () {
@@ -244,6 +245,8 @@ Vector3D.prototype.div = function (amount) {
 Vector3D.prototype.normalize = function () {
     return this.div(this.x + this.y + this.z);
 }
+
+// #endregion
 
 Graphics3D.prototype.clear = function () {
   var mask = this.gl.COLOR_BUFFER_BIT;
